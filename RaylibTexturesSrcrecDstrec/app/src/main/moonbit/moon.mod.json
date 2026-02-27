@@ -1,0 +1,8 @@
+{
+  "name": "tonyfettes/raylibtexturessrcrecdstrec",
+  "version": "0.1.0",
+  "deps": {
+    "tonyfettes/raylib": "0.1.0"
+  },
+  "preferred-target": "native"
+}

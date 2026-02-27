@@ -1,0 +1,10 @@
+import {
+  "moonbitlang/core/math",
+  "tonyfettes/raylib",
+  "tonyfettes/raylib/raygui",
+  "tonyfettes/raylib/rl",
+}
+
+options(
+  "is-main": true,
+)

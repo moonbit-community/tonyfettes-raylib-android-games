@@ -1,0 +1,23 @@
+# Build outputs
+build/
+.gradle/
+app/.externalNativeBuild/
+app/.cxx/
+*.apk
+*.aab
+
+# Local config (machine-specific)
+local.properties
+
+# IDE
+.idea/
+
+# Test artifacts
+build_logs/
+logcat/
+test_results_*.log
+screenshots/
+.build_results_*/
+
+# MoonBit package cache (switched to local path deps)
+.mooncakes/

@@ -1,0 +1,88 @@
+///|
+fn update_camera(game : Game, dt : Float) -> Unit {
+  let width_f = Float::from_int(screen_width)
+  let mut target_x = if game.player.reached_flag {
+    game.player.x - width_f * 0.45
+  } else {
+    game.player.x -
+    width_f * 0.36 +
+    Float::from_int(game.player.facing) * camera_lead_px
+  }
+
+  target_x = clampf(target_x, 0.0, world_width_px - width_f)
+
+  let blend = clampf(dt * camera_lerp, 0.0, 1.0)
+  game.camera_x += (target_x - game.camera_x) * blend
+}
+
+///|
+fn tick_level_timer(game : Game, dt : Float) -> Unit {
+  if game.player.reached_flag || game.state != state_playing {
+    return
+  }
+
+  game.time_accum += dt
+  while game.time_accum >= 1.0 {
+    game.time_accum -= 1.0
+    game.time_left -= 1
+    if game.time_left <= 0 {
+      game.time_left = 0
+      game.state = state_game_over
+      game.player.lives = 0
+      return
+    }
+  }
+}
+
+///|
+fn update_playing(game : Game, input : Input, dt : Float) -> Unit {
+  tick_level_timer(game, dt)
+  if game.state != state_playing {
+    return
+  }
+
+  update_player(game, input, dt)
+  update_enemies(game, dt)
+  update_coins(game, dt)
+  update_particles(game, dt)
+
+  if game.shake_t > 0.0 {
+    game.shake_t -= dt
+    if game.shake_t < 0.0 {
+      game.shake_t = 0.0
+    }
+  }
+
+  update_camera(game, dt)
+}
+
+///|
+pub fn init_game(game : Game) -> Unit {
+  build_level(game)
+  game.state = state_title
+  game.time_left = start_time_seconds
+  game.time_accum = 0.0
+}
+
+///|
+pub fn update_game(game : Game, input : Input, dt : Float) -> Unit {
+  game.elapsed += dt
+
+  if game.state == state_title {
+    update_particles(game, dt)
+    if input.accept {
+      reset_full_run(game)
+    }
+    return
+  }
+
+  if game.state == state_playing {
+    update_playing(game, input, dt)
+    return
+  }
+
+  update_particles(game, dt)
+  if input.restart {
+    reset_full_run(game)
+  }
+}
