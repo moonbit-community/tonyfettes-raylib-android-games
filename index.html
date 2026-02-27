@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MoonBit Raylib Android Games</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #0d1117; color: #e6edf3; }
+    .hero { background: linear-gradient(135deg,#1f2a3c,#0d1117); padding: 3rem 0; }
+    .hero h1 { font-size: 2.5rem; font-weight: 700; }
+    .hero p { color: #8b949e; }
+    .section-title { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: .5rem; margin: 2rem 0 1rem; }
+    .card {
+      background: #161b22; border: 1px solid #30363d;
+      border-radius: 8px; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .card-body { padding: .75rem; flex: 1; }
+    .card-title { color: #e6edf3; font-size: .85rem; margin: 0 0 .25rem; line-height: 1.3; }
+    .card-footer { background: transparent; border-top: 1px solid #30363d; padding: .5rem; }
+    .btn-primary { background: #238636; border-color: #238636; font-size: .78rem; }
+    .btn-primary:hover { background: #2ea043; border-color: #2ea043; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .75rem; }
+    .badge-count { background: #21262d; color: #8b949e; font-size: .8rem; padding: .2rem .6rem; border-radius: 12px; }
+    input#search { background: #21262d; border: 1px solid #30363d; color: #e6edf3; border-radius: 6px; padding: .4rem .8rem; width: 100%; max-width: 400px; }
+    input#search::placeholder { color: #8b949e; }
+    input#search:focus { outline: none; border-color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <div class="hero text-center">
+    <div class="container">
+      <h1>🎮 MoonBit Raylib Android Games</h1>
+      <p class="lead">135 games built with <strong>MoonBit</strong> + <strong>Raylib</strong> for Android</p>
+      <input id="search" type="text" placeholder="🔍 Search games..." oninput="filterCards(this.value)">
+    </div>
+  </div>
+
+  <div class="container py-4">
+
+    <h5 class="section-title">Classic Ports <span class="badge-count">5</span></h5>
+    <div class="grid" id="classics-grid">
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Battle City</h6>
+          <small class="text-muted">14.0 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibBattleCity.apk" class="btn btn-sm btn-primary w-100" download="RaylibBattleCity.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Fighter97</h6>
+          <small class="text-muted">16.0 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFighter97Lite.apk" class="btn btn-sm btn-primary w-100" download="RaylibFighter97Lite.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Jackal1988</h6>
+          <small class="text-muted">16.4 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibJackal1988Lite.apk" class="btn btn-sm btn-primary w-100" download="RaylibJackal1988Lite.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Minesweeper</h6>
+          <small class="text-muted">13.4 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMinesweeper.apk" class="btn btn-sm btn-primary w-100" download="RaylibMinesweeper.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Super Mario1985</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSuperMario1985Lite.apk" class="btn btn-sm btn-primary w-100" download="RaylibSuperMario1985Lite.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="section-title">2026 Original Games <span class="badge-count">130</span></h5>
+    <div class="grid" id="games-grid">
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Aftershock Rescue Convoy</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibAftershockRescueConvoy2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibAftershockRescueConvoy2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Air Traffic Control</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibAirTrafficControl2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibAirTrafficControl2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ancient Temple Trap Run</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibAncientTempleTrapRun2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibAncientTempleTrapRun2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Arcade Factory Defense</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibArcadeFactoryDefense2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibArcadeFactoryDefense2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Arcade Hacker Infiltration</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibArcadeHackerInfiltration2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibArcadeHackerInfiltration2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Archery Tournament</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibArcheryTournament2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibArcheryTournament2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Arctic Outpost Survival</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibArcticOutpostSurvival2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibArcticOutpostSurvival2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Bamboo Forest Sentinel</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibBambooForestSentinel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibBambooForestSentinel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Deep Sea Salvage</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDeepSeaSalvage2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDeepSeaSalvage2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Deep Tunnel Drill Rescue</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDeepTunnelDrillRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDeepTunnelDrillRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Desert Train Robbery</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDesertTrainRobbery2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDesertTrainRobbery2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Dice Roguelite Arena</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDiceRogueliteArena2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDiceRogueliteArena2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Dragon Boat Sprint</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDragonBoatSprint2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDragonBoatSprint2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Dragon Scroll Keeper</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDragonScrollKeeper2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDragonScrollKeeper2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Drift Police Chase</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDriftPoliceChase2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDriftPoliceChase2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Drone Delivery</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDroneDelivery2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDroneDelivery2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Drone Show Director</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDroneShowDirector2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDroneShowDirector2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Dungeon Courier Escape</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibDungeonCourierEscape2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibDungeonCourierEscape2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Festival Lion Dance Defense</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFestivalLionDanceDefense2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibFestivalLionDanceDefense2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Firefighting Command</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFirefightingCommand2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibFirefightingCommand2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Fishing Tycoon</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFishingTycoon2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibFishingTycoon2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Flappy Sky Ruins</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFlappySkyRuins2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibFlappySkyRuins2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Fog Ferry Rescue</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFogFerryRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibFogFerryRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Food Truck Frenzy</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibFoodTruckFrenzy2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibFoodTruckFrenzy2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ghost Mansion Investigation</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibGhostMansionInvestigation2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibGhostMansionInvestigation2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Glacier Rescue</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibGlacierRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibGlacierRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Gomoku Street Duel</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibGomokuStreetDuel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibGomokuStreetDuel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Grappling Tower Climb</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibGrapplingTowerClimb2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibGrapplingTowerClimb2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Gravity Golf</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibGravityGolf2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibGravityGolf2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Harbor Defense</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibHarborDefense2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibHarborDefense2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Harbor Smuggler Run</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibHarborSmugglerRun2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibHarborSmugglerRun2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Haunted Library Puzzle</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibHauntedLibraryPuzzle2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibHauntedLibraryPuzzle2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Hospital Triage</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibHospitalTriage2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibHospitalTriage2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Hotpot Empire Rush</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibHotpotEmpireRush2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibHotpotEmpireRush2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Icebreaker Convoy Command</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibIcebreakerConvoyCommand2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibIcebreakerConvoyCommand2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ice Fishing Blitz</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibIceFishingBlitz2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibIceFishingBlitz2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ink Scroll Detective</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibInkScrollDetective2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibInkScrollDetective2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Jade Temple Bellkeeper</h6>
+          <small class="text-muted">15.9 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibJadeTempleBellkeeper2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibJadeTempleBellkeeper2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Jetpack Cavern Rush</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibJetpackCavernRush2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibJetpackCavernRush2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Lighthouse Supply Run</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibLighthouseSupplyRun2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibLighthouseSupplyRun2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Lunar Lander Ops</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibLunarLanderOps2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibLunarLanderOps2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Magnet Lab Escape</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMagnetLabEscape2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMagnetLabEscape2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Magnet Maze</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMagnetMaze2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMagnetMaze2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Mahjong Solitaire Pavilion</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMahjongSolitairePavilion2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMahjongSolitairePavilion2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Martial Arts School Manager</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMartialArtsSchoolManager2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMartialArtsSchoolManager2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Match3 Garden</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMatch3Garden2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMatch3Garden2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Matchlink Festival</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMatchlinkFestival2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMatchlinkFestival2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Mech Arena Duel</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMechArenaDuel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMechArenaDuel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Meteor Miner Convoy</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMeteorMinerConvoy2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMeteorMinerConvoy2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Metro Repair Dispatch</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMetroRepairDispatch2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMetroRepairDispatch2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Mine Cart Mayhem</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMineCartMayhem2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMineCartMayhem2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Minesweeper Neon Ops</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMinesweeperNeonOps2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMinesweeperNeonOps2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Monsoon Bridge Rescue</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMonsoonBridgeRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMonsoonBridgeRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Moon Gate Defense</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMoonGateDefense2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMoonGateDefense2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Mountain Bike Downhill</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMountainBikeDownhill2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMountainBikeDownhill2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Museum Heist Puzzle</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibMuseumHeistPuzzle2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibMuseumHeistPuzzle2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon2048 Storm</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeon2048Storm2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeon2048Storm2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon Air Hockey</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeonAirHockey2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeonAirHockey2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon Drift Bounty</h6>
+          <small class="text-muted">15.9 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeonDriftBounty2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeonDriftBounty2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon Heist Extraction</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeonHeistExtraction2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeonHeistExtraction2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon Rooftop Rush</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeonRooftopRush2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeonRooftopRush2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon Subway Sprint</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeonSubwaySprint2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeonSubwaySprint2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Neon Taxi Rush</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNeonTaxiRush2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNeonTaxiRush2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Night Market Chef Duel</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNightMarketChefDuel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNightMarketChefDuel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ninja Rooftop Chase</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibNinjaRooftopChase2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibNinjaRooftopChase2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Orbital Salvage Ops</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibOrbitalSalvageOps2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibOrbitalSalvageOps2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Orbital Shield Command</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibOrbitalShieldCommand2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibOrbitalShieldCommand2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Pac Dash</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPacDash2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPacDash2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Paper Lantern Patrol</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPaperLanternPatrol2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPaperLanternPatrol2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Peking Opera Duel</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPekingOperaDuel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPekingOperaDuel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Picross Harbor</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPicrossHarbor2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPicrossHarbor2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Pinball Workshop</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPinballWorkshop2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPinballWorkshop2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Pizza Delivery Mayhem</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPizzaDeliveryMayhem2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPizzaDeliveryMayhem2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Platformer Precision</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPlatformerPrecision2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPlatformerPrecision2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Polar Train Heist</h6>
+          <small class="text-muted">15.9 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPolarTrainHeist2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPolarTrainHeist2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Portal Billiards</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPortalBilliards2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPortalBilliards2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Portal Blackout Escape</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPortalBlackoutEscape2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPortalBlackoutEscape2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Port Logistics Empire</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPortLogisticsEmpire2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPortLogisticsEmpire2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Post Office Sorter</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPostOfficeSorter2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPostOfficeSorter2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Power Grid Operator</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPowerGridOperator2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPowerGridOperator2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Powerline Repair Patrol</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibPowerlineRepairPatrol2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibPowerlineRepairPatrol2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Quantum Skater</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibQuantumSkater2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibQuantumSkater2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Radio Station Manager</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRadioStationManager2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRadioStationManager2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Raft Rapids Escape</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRaftRapidsEscape2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRaftRapidsEscape2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Reactor Siege</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibReactorSiege2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibReactorSiege2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rhythm Street Beats</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRhythmStreetBeats2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRhythmStreetBeats2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">River Raid</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRiverRaid2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRiverRaid2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rocket Arena Soccer</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRocketArenaSoccer2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRocketArenaSoccer2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rogue Dungeon</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRogueDungeon2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRogueDungeon2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rooftop Mail Glider</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRooftopMailGlider2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRooftopMailGlider2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rooftop Volleyball</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRooftopVolleyball2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRooftopVolleyball2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rts Skirmish</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRtsSkirmish2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRtsSkirmish2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Rush Hour Escape</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibRushHourEscape2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibRushHourEscape2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Shadow Puppet Theater</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibShadowPuppetTheater2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibShadowPuppetTheater2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Silkroad Caravan Guard</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSilkroadCaravanGuard2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSilkroadCaravanGuard2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ski Rescue</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSkiRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSkiRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Sky Convoy Defense</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSkyConvoyDefense2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSkyConvoyDefense2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Skyforge Mining Convoy</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSkyforgeMiningConvoy2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSkyforgeMiningConvoy2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Skyhook Cargo Rescue</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSkyhookCargoRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSkyhookCargoRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Skyline Fire Rescue</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSkylineFireRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSkylineFireRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Skyline Parkour Trials</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSkylineParkourTrials2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSkylineParkourTrials2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Snake Battle Arena</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSnakeBattleArena2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSnakeBattleArena2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Snowboard Slalom</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSnowboardSlalom2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSnowboardSlalom2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Sokoban Warehouse Master</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSokobanWarehouseMaster2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSokobanWarehouseMaster2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Solar Rail Breaker</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSolarRailBreaker2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSolarRailBreaker2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Space Trader</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSpaceTrader2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSpaceTrader2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Spellforge Arena</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSpellforgeArena2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSpellforgeArena2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Stealth Heist</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibStealthHeist2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibStealthHeist2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Street Basketball Duel</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibStreetBasketballDuel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibStreetBasketballDuel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Submarine Hunter</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSubmarineHunter2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSubmarineHunter2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Submarine Sonar Hunt</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSubmarineSonarHunt2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSubmarineSonarHunt2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Subway Signal Saboteur</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibSubwaySignalSaboteur2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibSubwaySignalSaboteur2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Teahouse Midnight Service</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTeahouseMidnightService2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTeahouseMidnightService2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Tea Mountain Express</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTeaMountainExpress2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTeaMountainExpress2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Temple Relic Run</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTempleRelicRun2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTempleRelicRun2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Tetris Meteor Fall</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTetrisMeteorFall2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTetrisMeteorFall2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Time Loop Arena</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTimeLoopArena2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTimeLoopArena2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Topdown Survivor</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTopdownSurvivor2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTopdownSurvivor2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Tower Defense Frontier</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTowerDefenseFrontier2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTowerDefenseFrontier2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Train Dispatch</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTrainDispatch2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTrainDispatch2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Treasure Map Expedition</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibTreasureMapExpedition2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibTreasureMapExpedition2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Ufo Cow Rescue</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibUfoCowRescue2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibUfoCowRescue2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Urban Flood Evacuation</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibUrbanFloodEvacuation2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibUrbanFloodEvacuation2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Void Anchor Raid</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibVoidAnchorRaid2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibVoidAnchorRaid2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Volcano Airlift</h6>
+          <small class="text-muted">15.6 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibVolcanoAirlift2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibVolcanoAirlift2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Volcano Rescue Ops</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibVolcanoRescueOps2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibVolcanoRescueOps2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Warehouse Forklift</h6>
+          <small class="text-muted">15.5 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibWarehouseForklift2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibWarehouseForklift2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Wildfire Airlift Command</h6>
+          <small class="text-muted">15.8 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibWildfireAirliftCommand2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibWildfireAirliftCommand2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Wuxia Rooftop Duel</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibWuxiaRooftopDuel2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibWuxiaRooftopDuel2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Zombie Safehouse Siege</h6>
+          <small class="text-muted">15.7 MB</small>
+        </div>
+        <div class="card-footer">
+          <a href="https://moonbit-raylib-android-games.s3.us-west-2.amazonaws.com/RaylibZombieSafehouseSiege2026.apk" class="btn btn-sm btn-primary w-100" download="RaylibZombieSafehouseSiege2026.apk">
+            ⬇ Download APK
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center mt-5" style="color:#8b949e;font-size:.8rem">
+      Built from <a href="https://github.com/moonbit-community/tonyfettes-raylib-android-games" style="color:#58a6ff">moonbit-community/tonyfettes-raylib-android-games</a>
+    </p>
+  </div>
+
+  <script>
+    function filterCards(q) {
+      q = q.toLowerCase();
+      document.querySelectorAll('.card').forEach(c => {
+        const title = c.querySelector('.card-title').textContent.toLowerCase();
+        c.style.display = title.includes(q) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
