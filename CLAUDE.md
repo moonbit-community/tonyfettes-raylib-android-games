@@ -9,7 +9,7 @@ Android game/demo apps built with **MoonBit** and **raylib**. Each `Raylib*/` di
 - **Game projects** (`*2026`, plus classic game remakes like `RaylibContra1987Lite`) — ~156 projects
 - **Example/demo projects** (raylib API examples: `RaylibCore*`, `RaylibShapes*`, `RaylibTextures*`, etc.) — ~158 projects
 
-All projects use the **`raylib/`** git submodule (`tonyfettes/raylib`) as a local path dependency — both in `moon.mod.json` and `CMakeLists.txt`.
+All projects depend on **`tonyfettes/raylib@0.2.2`** from mooncakes.io. Run `moon install` in each project's `moonbit/` directory before the first build.
 
 ## Prerequisites
 
@@ -22,6 +22,9 @@ All projects use the **`raylib/`** git submodule (`tonyfettes/raylib`) as a loca
 ## Build Commands
 
 ```bash
+# Install MoonBit dependencies (first time only, per project)
+cd RaylibCoreBasicWindow/app/src/main/moonbit && moon install && cd -
+
 # Build a single project
 cd RaylibCoreBasicWindow
 ./gradlew assembleDebug --no-daemon
@@ -45,10 +48,11 @@ Raylib<Name>/
     build.gradle.kts          # Android build config (namespace, applicationId, NDK ABI filters)
     src/main/
       cpp/
-        CMakeLists.txt         # Native build: moon build -> C, then compile raylib + game .so
+        CMakeLists.txt         # Native build: moon build -> C, then add_subdirectory(raylib_moonbit) + game .so
       moonbit/
         main.mbt               # MoonBit game source
-        moon.mod.json           # MoonBit module config (deps on tonyfettes/raylib via local path)
+        moon.mod.json           # MoonBit module config (deps on tonyfettes/raylib@0.2.2 from mooncakes.io)
+        .mooncakes/             # Downloaded dependencies (created by `moon install`)
         moon.pkg                # MoonBit package config
       assets/                   # Game assets (textures, sounds, shaders) — optional
       res/                      # Android resources
@@ -59,15 +63,15 @@ Raylib<Name>/
 ## Build Pipeline
 
 1. **MoonBit compile** — `moon build --target native` generates a `.c` file from `main.mbt`
-2. **raylib static lib** — Compiled from vendored C sources in `raylib/internal/raylib/` (the git submodule)
-3. **Game shared lib** — Links generated C + MoonBit runtime + raylib stub bindings + raylib → `.so`
+2. **raylib + stubs** — CMakeLists.txt uses `add_subdirectory(.mooncakes/tonyfettes/raylib)` which provides the `raylib_moonbit` target (raylib static lib + C stub bindings)
+3. **Game shared lib** — Links generated C + MoonBit runtime + `raylib_moonbit` → `.so`
 4. **Gradle package** — Bundles `.so` into APK for `arm64-v8a`, `armeabi-v7a`, `x86_64`
 
 ## Key Dependencies
 
-- **`raylib/`** (git submodule) — `tonyfettes/raylib` MoonBit bindings + vendored raylib 5.5 C sources
-  - All projects reference this via `"tonyfettes/raylib": { "path": "../../../../../raylib" }` in `moon.mod.json`
-  - CMakeLists.txt uses `${CMAKE_CURRENT_SOURCE_DIR}/../../../../../raylib/internal/raylib` for C sources
+- **`tonyfettes/raylib@0.2.2`** (from mooncakes.io) — MoonBit bindings + vendored raylib 5.5 C sources
+  - All projects declare `"tonyfettes/raylib": "0.2.2"` in `moon.mod.json`
+  - `moon install` downloads into `.mooncakes/tonyfettes/raylib/`; CMakeLists.txt uses `add_subdirectory` on that path
 - **`scripts/build_games.sh`** — Parallel build script (default 8 jobs, configurable via `MAX_PARALLEL`)
 - **`scripts/upload_apks.sh`** — Upload built APKs
 
