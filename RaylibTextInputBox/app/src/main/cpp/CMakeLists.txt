@@ -4,19 +4,27 @@ project("raylibtextinputbox" C)
 set(MOONBIT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../moonbit)
 set(NATIVE_APP_GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
 
+# Refresh .mooncakes at configure time so add_subdirectory finds CMakeLists.txt & stubs.
+find_program(MOON_EXECUTABLE moon REQUIRED)
+execute_process(
+    COMMAND ${MOON_EXECUTABLE} check --target native
+    WORKING_DIRECTORY ${MOONBIT_DIR}
+    RESULT_VARIABLE MOON_RESULT
+)
+if(NOT MOON_RESULT EQUAL 0)
+    message(FATAL_ERROR "moon check failed (exit ${MOON_RESULT})")
+endif()
+
 # Pull in raylib + raylib_moonbit targets; sets RAYLIB_MOONBIT_MOON_HOME
 set(RAYLIB_MOONBIT_DIR ${MOONBIT_DIR}/.mooncakes/tonyfettes/raylib)
 add_subdirectory(${RAYLIB_MOONBIT_DIR} raylib_build)
 
-find_program(MOON_EXECUTABLE moon REQUIRED)
-
 set(MOONBIT_GENERATED_C
     ${MOONBIT_DIR}/_build/native/debug/build/raylibtextinputbox.c)
-add_custom_command(
-    OUTPUT  ${MOONBIT_GENERATED_C}
+add_custom_target(moonbit_codegen ALL
     COMMAND ${MOON_EXECUTABLE} build --target native
     WORKING_DIRECTORY ${MOONBIT_DIR}
-    DEPENDS ${MOONBIT_DIR}/main.mbt
+    BYPRODUCTS ${MOONBIT_GENERATED_C}
     COMMENT "Compiling MoonBit to C"
 )
 
@@ -40,4 +48,5 @@ target_compile_definitions(raylibtextinputbox PRIVATE PLATFORM_ANDROID)
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 # raylib_moonbit brings in: stubs + raylib core + Android system libs +
 # MOON_HOME/include + RAYLIB_SRC_DIR — all transitively via PUBLIC properties.
+add_dependencies(raylibtextinputbox moonbit_codegen)
 target_link_libraries(raylibtextinputbox raylib_moonbit)

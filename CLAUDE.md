@@ -9,7 +9,7 @@ Android game/demo apps built with **MoonBit** and **raylib**. Each `Raylib*/` di
 - **Game projects** (`*2026`, plus classic game remakes like `RaylibContra1987Lite`) — ~156 projects
 - **Example/demo projects** (raylib API examples: `RaylibCore*`, `RaylibShapes*`, `RaylibTextures*`, etc.) — ~158 projects
 
-All projects depend on **`tonyfettes/raylib@0.2.2`** from mooncakes.io. Run `moon install` in each project's `moonbit/` directory before the first build.
+All projects depend on **`tonyfettes/raylib@0.2.2`** from mooncakes.io. Dependencies are auto-refreshed by CMake at configure time (`moon check`).
 
 ## Prerequisites
 
@@ -62,10 +62,11 @@ Raylib<Name>/
 
 ## Build Pipeline
 
-1. **MoonBit compile** — `moon build --target native` generates a `.c` file from `main.mbt`
-2. **raylib + stubs** — CMakeLists.txt uses `add_subdirectory(.mooncakes/tonyfettes/raylib)` which provides the `raylib_moonbit` target (raylib static lib + C stub bindings)
-3. **Game shared lib** — Links generated C + MoonBit runtime + `raylib_moonbit` → `.so`
-4. **Gradle package** — Bundles `.so` into APK for `arm64-v8a`, `armeabi-v7a`, `x86_64`
+1. **`moon check`** (configure time) — `execute_process(moon check)` refreshes `.mooncakes` dependencies before CMake reads them
+2. **`add_subdirectory`** (configure time) — loads `.mooncakes/tonyfettes/raylib/CMakeLists.txt` which defines the `raylib` + `raylib_moonbit` targets
+3. **`moon build`** (build time) — `add_custom_target(moonbit_codegen ALL)` runs `moon build --target native` every build; moon tracks file changes internally
+4. **Native compile** — links generated C + MoonBit runtime + `raylib_moonbit` → `.so`
+5. **Gradle package** — bundles `.so` into APK for `arm64-v8a`, `armeabi-v7a`, `x86_64`
 
 ## Key Dependencies
 
