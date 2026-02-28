@@ -204,7 +204,6 @@ fn main {
 
   let _ = @raylib.change_directory("examples/raylib_shaders_basic_pbr")
 
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - basic pbr",
   )

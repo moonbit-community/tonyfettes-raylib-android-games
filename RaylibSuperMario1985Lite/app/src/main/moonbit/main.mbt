@@ -19,7 +19,6 @@ fn read_input() -> Input {
 
 ///|
 fn main {
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_width, screen_height, "raylib [game] super mario 1985 lite",
   )

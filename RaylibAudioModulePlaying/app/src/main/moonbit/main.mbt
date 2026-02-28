@@ -5,7 +5,6 @@ fn main {
   let screen_height = 450
   let max_circles = 64
 
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint) // NOTE: Try to enable MSAA 4X
 
   let _ = @raylib.change_directory("examples/raylib_audio_module_playing")
 

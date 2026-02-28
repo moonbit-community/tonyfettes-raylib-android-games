@@ -1,6 +1,5 @@
 ///|
 fn main {
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(screen_w, screen_h, "raylib [game] candy crush 2026")
   defer @raylib.close_window()
   @raylib.set_target_fps(target_fps)

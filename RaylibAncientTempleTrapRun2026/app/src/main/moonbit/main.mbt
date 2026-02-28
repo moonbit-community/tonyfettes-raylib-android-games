@@ -1,6 +1,5 @@
 ///|
 fn main {
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_w, screen_h, "raylib [game] ancient_temple_trap_run_2026",
   )

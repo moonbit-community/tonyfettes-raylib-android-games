@@ -68,7 +68,6 @@ fn main {
   let mut render_type = @rl.Triangles
 
   // Enable anti-aliasing
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_width, screen_height, "raylib [shapes] example - rlgl color wheel",
   )

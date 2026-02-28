@@ -1,6 +1,5 @@
 ///|
 fn main {
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_w, screen_h, "raylib [game] portal_blackout_escape_2026",
   )

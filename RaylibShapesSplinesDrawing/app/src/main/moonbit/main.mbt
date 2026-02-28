@@ -4,7 +4,6 @@ fn main {
   let screen_width = 800
   let screen_height = 450
 
-  @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_width, screen_height, "raylib [shapes] example - splines drawing",
   )
