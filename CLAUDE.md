@@ -22,9 +22,6 @@ All projects depend on **`tonyfettes/raylib@0.2.2`** from mooncakes.io. Run `moo
 ## Build Commands
 
 ```bash
-# Install MoonBit dependencies (first time only, per project)
-cd RaylibCoreBasicWindow/app/src/main/moonbit && moon install && cd -
-
 # Build a single project
 cd RaylibCoreBasicWindow
 ./gradlew assembleDebug --no-daemon
@@ -38,6 +35,9 @@ bash scripts/build_games.sh RaylibCoreBasicWindow RaylibShapesBouncingBall
 # Install & launch on emulator/device
 adb install -r RaylibCoreBasicWindow/app/build/outputs/apk/debug/app-debug.apk
 adb shell am start -n com.example.raylibcorebasicwindow/android.app.NativeActivity
+
+# Run moon check, moon fmt, and moon info across all projects (refreshes .mooncakes dependencies)
+for d in Raylib*/app/src/main/moonbit; do (cd "$d" && moon check --target native && moon fmt && moon info); done
 ```
 
 ## Project Structure
@@ -83,6 +83,10 @@ Raylib<Name>/
 - **All apps use `android.app.NativeActivity`** — there is no custom Java Activity class.
 - **If `java` is not on PATH**, set `JAVA_HOME` to your JDK or to Android Studio's bundled JBR (e.g. on macOS: `/Applications/Android Studio.app/Contents/jbr/Contents/Home`).
 - **If `moon` is not on PATH**, add it (e.g. `export PATH="$HOME/.moon/bin:$PATH"`).
+
+## Troubleshooting
+
+- **Stale `.mooncakes` dependencies** — If CMake fails with missing `CMakeLists.txt` in `.mooncakes/tonyfettes/raylib/` or C compilation errors in stub files, run `moon check --target native` in the project's `moonbit/` directory to refresh. This also refreshes `stub_internal.h` and other generated files.
 
 ## Conventions
 
