@@ -4,3 +4,7 @@
 [submodule "RaylibBattleCity"]
 	path = RaylibBattleCity
 	url = https://github.com/moonbit-community/tonyfettes-android-raylib-battle-city
+[submodule "async"]
+	path = async
+	url = https://github.com/moonbitlang/async
+	branch = worktree-android

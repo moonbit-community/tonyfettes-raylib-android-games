@@ -1,0 +1,9 @@
+{
+  "name": "tonyfettes/raylibnetworkcurl",
+  "version": "0.1.0",
+  "deps": {
+    "tonyfettes/raylib": { "path": "../../../../../raylib" },
+    "moonbitlang/async": { "path": "../../../../../async" }
+  },
+  "preferred-target": "native"
+}
