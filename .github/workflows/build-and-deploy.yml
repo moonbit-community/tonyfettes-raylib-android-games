@@ -23,7 +23,7 @@ jobs:
   # ── Job 1: Build all games in parallel chunks ──────────────────────────────
   build:
     name: Build (${{ matrix.chunk }})
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -46,17 +46,26 @@ jobs:
 
       - name: Install MoonBit
         run: |
-          if ! command -v moon &>/dev/null; then
-            curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
-            echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-          fi
-          moon version
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
 
-      - name: Install Android NDK ${{ env.NDK_VERSION }}
+      - name: Verify MoonBit
+        run: moon version
+
+      - name: Install Android NDK
         env:
           NDK_VERSION: 28.2.13676358
         run: |
           sdkmanager "ndk;${NDK_VERSION}"
+
+      - name: Set up raylib workspace
+        # moon.mod.json files reference this exact path; clone the upstream
+        # repo (which contains the PLATFORM_ANDROID fix) to match it.
+        run: |
+          sudo mkdir -p /Users/haoxiang/Workspace/moonbit
+          sudo git clone --depth 1 \
+            https://github.com/moonbit-community/tonyfettes-raylib \
+            /Users/haoxiang/Workspace/moonbit/raylib
 
       - name: Build projects
         env:
@@ -106,7 +115,7 @@ jobs:
   deploy:
     name: Deploy
     needs: build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
