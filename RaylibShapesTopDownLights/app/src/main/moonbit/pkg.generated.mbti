@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibshapestopdownlights"
+
+// Values
+
+// Errors
+
+// Types and methods
+type LightInfo
+
+type ShadowGeometry
+
+// Type aliases
+
+// Traits
+

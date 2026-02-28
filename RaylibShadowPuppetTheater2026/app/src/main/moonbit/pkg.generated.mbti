@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibshadowpuppettheater2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Input
+
+type Pose
+
+// Type aliases
+
+// Traits
+

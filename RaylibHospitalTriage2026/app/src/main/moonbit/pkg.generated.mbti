@@ -1,0 +1,14 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibhospitaltriage2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Patient
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibhauntedlibrarypuzzle2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Actor
+
+type Game
+
+type Ghost
+
+type Particle
+
+// Type aliases
+
+// Traits
+

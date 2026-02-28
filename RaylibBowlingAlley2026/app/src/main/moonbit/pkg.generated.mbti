@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibbowlingalley2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Pin
+
+type Spark
+
+// Type aliases
+
+// Traits
+

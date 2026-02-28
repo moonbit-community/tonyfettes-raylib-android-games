@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibbombergrid2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bomb
+
+type Enemy
+
+// Type aliases
+
+// Traits
+

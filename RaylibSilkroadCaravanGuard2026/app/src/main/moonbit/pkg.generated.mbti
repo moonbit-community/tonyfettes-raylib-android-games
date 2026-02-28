@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibsilkroadcaravanguard2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Dust
+
+type Game
+
+type Player
+
+type Raider
+
+type Wagon
+
+// Type aliases
+
+// Traits
+

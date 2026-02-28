@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibfestivalliondancedefense2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type InputState
+
+type Threat
+
+// Type aliases
+
+// Traits
+

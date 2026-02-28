@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibdungeoncourierescape2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type ExitMarker
+
+type Game
+
+type Guard
+
+type InputState
+
+type Parcel
+
+type Player
+
+type Smoke
+
+type Trap
+
+// Type aliases
+
+// Traits
+

@@ -12,9 +12,7 @@ fn draw_background(game : Game, shake_y : Float) -> Unit {
   let sky_bottom = @raylib.Color::new(120, 180, 250, 255)
 
   for i = 0; i < screen_height - hud_height; i = i + 4 {
-    let p = Float::from_int(i) / Float::from_int(
-        screen_height - hud_height,
-      )
+    let p = Float::from_int(i) / Float::from_int(screen_height - hud_height)
     let c = @raylib.color_lerp(sky_top, sky_bottom, p)
     @raylib.draw_rectangle(0, hud_height + i, screen_width, 4, c)
   }
@@ -216,11 +214,7 @@ fn draw_tile(
 
 ///|
 fn draw_tiles(game : Game, cam_x : Float, shake_y : Float) -> Unit {
-  let start_tx = clampi(
-    world_to_tile_x(cam_x) - 1,
-    0,
-    world_tiles_w - 1,
-  )
+  let start_tx = clampi(world_to_tile_x(cam_x) - 1, 0, world_tiles_w - 1)
   let end_tx = clampi(
     world_to_tile_x(cam_x + Float::from_int(screen_width)) + 2,
     0,
@@ -348,10 +342,7 @@ fn draw_player(game : Game, cam_x : Float, shake_y : Float) -> Unit {
     return
   }
 
-  let x0 = world_to_screen_x(
-      player.x - player_half_w(),
-      cam_x,
-    ).to_int()
+  let x0 = world_to_screen_x(player.x - player_half_w(), cam_x).to_int()
   let y0 = world_to_screen_y(player.y - player_half_h(), shake_y).to_int()
 
   // Body and overalls.
@@ -441,16 +432,8 @@ fn draw_particles(game : Game, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 pub fn draw_world(game : Game) -> Unit {
-  let shake_x = if game.shake_t > 0.0 {
-    randf(-5.0, 5.0)
-  } else {
-    0.0
-  }
-  let shake_y = if game.shake_t > 0.0 {
-    randf(-3.0, 3.0)
-  } else {
-    0.0
-  }
+  let shake_x = if game.shake_t > 0.0 { randf(-5.0, 5.0) } else { 0.0 }
+  let shake_y = if game.shake_t > 0.0 { randf(-3.0, 3.0) } else { 0.0 }
   let cam_x = game.camera_x + shake_x
 
   draw_background(game, shake_y)

@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibpinballworkshop2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Ball
+
+type Flipper
+
+// Type aliases
+
+// Traits
+

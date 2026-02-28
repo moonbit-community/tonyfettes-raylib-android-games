@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibclocktowerheist2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Guard
+
+type Keycard
+
+type Particle
+
+type Thief
+
+// Type aliases
+
+// Traits
+

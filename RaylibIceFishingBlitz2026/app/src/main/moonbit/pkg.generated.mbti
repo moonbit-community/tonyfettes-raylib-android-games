@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibicefishingblitz2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Fish
+
+type Game
+
+type Hazard
+
+type Particle
+
+type Pickup
+
+// Type aliases
+
+// Traits
+

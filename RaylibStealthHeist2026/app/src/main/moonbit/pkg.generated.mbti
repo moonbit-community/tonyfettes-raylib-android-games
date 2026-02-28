@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibstealthheist2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Card
+
+type Guard
+
+// Type aliases
+
+// Traits
+

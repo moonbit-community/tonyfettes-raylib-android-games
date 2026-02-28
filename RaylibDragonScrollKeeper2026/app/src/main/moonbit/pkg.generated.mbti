@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibdragonscrollkeeper2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Breach
+
+type Flame
+
+type Game
+
+type Keeper
+
+type Raider
+
+// Type aliases
+
+// Traits
+

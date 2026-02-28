@@ -1,0 +1,30 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibneonheistextraction2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type CameraUnit
+
+type Guard
+
+type Loot
+
+type Particle
+
+type Player
+
+type Terminal
+
+type Vault
+
+type Wall
+
+// Type aliases
+
+// Traits
+

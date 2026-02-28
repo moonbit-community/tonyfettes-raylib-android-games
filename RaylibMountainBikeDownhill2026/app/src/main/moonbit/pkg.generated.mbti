@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibmountainbikedownhill2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Checkpoint
+
+type Hazard
+
+type Particle
+
+type Pickup
+
+type Rider
+
+// Type aliases
+
+// Traits
+

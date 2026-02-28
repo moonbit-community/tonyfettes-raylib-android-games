@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibstreetbasketballduel2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Athlete
+
+type Ball
+
+type Particle
+
+// Type aliases
+
+// Traits
+

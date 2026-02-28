@@ -7,12 +7,7 @@ fn collect_coin(game : Game, x : Float, y : Float) -> Unit {
 }
 
 ///|
-fn on_player_hit_block(
-  game : Game,
-  tx : Int,
-  ty : Int,
-  tile : Int,
-) -> Unit {
+fn on_player_hit_block(game : Game, tx : Int, ty : Int, tile : Int) -> Unit {
   let player = game.player
   let cx = tile_center_x(tx)
   let cy = tile_center_y(ty)
@@ -238,11 +233,7 @@ fn update_player(game : Game, input : Input, dt : Float) -> Unit {
   }
 
   if move_axis != 0 {
-    let accel = if player.on_ground {
-      run_accel_ground
-    } else {
-      run_accel_air
-    }
+    let accel = if player.on_ground { run_accel_ground } else { run_accel_air }
     player.vx += Float::from_int(move_axis) * accel * dt
     player.vx = clampf(player.vx, -max_run_speed, max_run_speed)
     player.facing = move_axis

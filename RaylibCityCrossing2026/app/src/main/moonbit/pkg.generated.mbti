@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibcitycrossing2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Car
+
+type Log
+
+// Type aliases
+
+// Traits
+

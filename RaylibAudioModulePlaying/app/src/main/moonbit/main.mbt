@@ -5,7 +5,6 @@ fn main {
   let screen_height = 450
   let max_circles = 64
 
-
   let _ = @raylib.change_directory("examples/raylib_audio_module_playing")
 
   @raylib.init_window(

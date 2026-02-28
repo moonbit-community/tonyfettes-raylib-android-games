@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibinkscrolldetective2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Clue
+
+type DistrictPulse
+
+type Game
+
+type Incident
+
+type Suspect
+
+// Type aliases
+
+// Traits
+

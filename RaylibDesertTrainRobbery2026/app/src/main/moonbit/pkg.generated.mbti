@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibdeserttrainrobbery2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Particle
+
+type Rider
+
+type Sheriff
+
+type Wagon
+
+// Type aliases
+
+// Traits
+

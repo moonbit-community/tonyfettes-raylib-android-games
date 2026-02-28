@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibraftrapidsescape2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Obstacle
+
+type Particle
+
+type Pickup
+
+// Type aliases
+
+// Traits
+

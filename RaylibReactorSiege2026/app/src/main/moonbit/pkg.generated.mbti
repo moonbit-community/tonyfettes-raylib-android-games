@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibreactorsiege2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Core
+
+type Drop
+
+type Enemy
+
+type Hero
+
+type Particle
+
+type Turret
+
+// Type aliases
+
+// Traits
+

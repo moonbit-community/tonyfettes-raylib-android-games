@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibskyhookcargorescue2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Hazard
+
+type Particle
+
+type Pickup
+
+type Survivor
+
+// Type aliases
+
+// Traits
+

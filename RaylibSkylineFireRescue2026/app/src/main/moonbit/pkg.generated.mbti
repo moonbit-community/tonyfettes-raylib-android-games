@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibskylinefirerescue2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Building
+
+type Helicopter
+
+type Particle
+
+type WaterDrop
+
+// Type aliases
+
+// Traits
+

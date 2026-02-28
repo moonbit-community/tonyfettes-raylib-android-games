@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibmartialartsschoolmanager2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Input
+
+type Student
+
+// Type aliases
+
+// Traits
+

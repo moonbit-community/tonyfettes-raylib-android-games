@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibneondriftbounty2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Afterimage
+
+type Bullet
+
+type Entity
+
+type Game
+
+type GlowRing
+
+type Player
+
+type Spark
+
+// Type aliases
+
+// Traits
+

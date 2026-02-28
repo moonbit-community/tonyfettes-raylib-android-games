@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylibmuseumheistpuzzle2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Artifact
+
+type FrameInput
+
+type Game
+
+type Guard
+
+// Type aliases
+
+// Traits
+
