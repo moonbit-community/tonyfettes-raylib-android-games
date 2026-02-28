@@ -198,3 +198,9 @@ let spawn_interval_base : Float = 0.96
 
 ///|
 let spawn_interval_min : Float = 0.30
+
+///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}

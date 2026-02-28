@@ -35,6 +35,12 @@ fn reset_targets(ts : Array[Target]) -> Unit {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(sw, sh, "Archery Tournament 2026")
   @raylib.set_target_fps(60)
@@ -117,10 +123,36 @@ fn main {
         wind_tick = wind_tick - 2.8
         wind = Float::from_int(@raylib.get_random_value(-90, 90))
       }
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { arc_power = arc_power - 220.0 * dt }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { arc_power = arc_power + 220.0 * dt }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { arc_lift = arc_lift + 180.0 * dt }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { arc_lift = arc_lift - 180.0 * dt }
+      }
+      if arc_power < 260.0 { arc_power = 260.0 }
+      if arc_power > 760.0 { arc_power = 760.0 }
+      if arc_lift < 120.0 { arc_lift = 120.0 }
+      if arc_lift > 460.0 { arc_lift = 460.0 }
 
       if @raylib.is_key_pressed(@raylib.KeySpace) &&
         not(arrow.alive) &&
         arrows_left > 0 {
+        arrow.alive = true
+        arrow.x = archer_x + 26.0
+        arrow.y = archer_y - 32.0
+        arrow.vx = arc_power
+        arrow.vy = -arc_lift
+        arrows_left = arrows_left - 1
+      }
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) &&
+        inside_rect(m.x, m.y, action_x, action_y, 176, 120) &&
+        not(arrow.alive) && arrows_left > 0 {
         arrow.alive = true
         arrow.x = archer_x + 26.0
         arrow.y = archer_y - 32.0
@@ -367,6 +399,24 @@ fn main {
       @raylib.draw_text("TOURNAMENT OVER", 360, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 450, 384, 34, @raylib.white)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("SHOOT", action_x + 30, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

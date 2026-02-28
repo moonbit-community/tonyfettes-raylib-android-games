@@ -1,4 +1,10 @@
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 let sw : Int = 1120
 
 ///|
@@ -146,6 +152,44 @@ fn main {
         current = take_song(queue, 3)
         current_time = current.len
         msg = "Track 4 queued now."
+      }
+
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) {
+          current = take_song(queue, 0)
+          current_time = current.len
+          msg = "Track 1 queued now."
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) {
+          current = take_song(queue, 2)
+          current_time = current.len
+          msg = "Track 3 queued now."
+        }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) {
+          current = take_song(queue, 1)
+          current_time = current.len
+          msg = "Track 2 queued now."
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) {
+          current = take_song(queue, 3)
+          current_time = current.len
+          msg = "Track 4 queued now."
+        }
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+          if ad_cd <= 0.0 {
+            ad_cd = 9.0
+            ad_budget = ad_budget + 14
+            listeners = listeners - 5
+            rating = rating - 2
+            msg = "Ad break aired."
+          }
+        }
       }
 
       current_time = current_time - dt
@@ -330,6 +374,24 @@ fn main {
       @raylib.draw_text("SHIFT OVER", 430, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 440, 386, 34, @raylib.white)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("TRK1", ctl_x + 10, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("TRK3", ctl_x + 90, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("TRK2", ctl_x + 10, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("TRK4", ctl_x + 90, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("AD", action_x + 50, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

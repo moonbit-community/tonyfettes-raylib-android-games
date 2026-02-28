@@ -20,6 +20,18 @@ fn try_set_player_wanted_dir(game : Game) -> Unit {
     game.want_x = 1
     game.want_y = 0
   }
+
+  // Touch controls
+  let m = @raylib.get_mouse_position()
+  let sh = screen_height
+  let ctl_x = 20
+  let ctl_y = sh - 176
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { game.want_x = -1; game.want_y = 0 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { game.want_x = 1; game.want_y = 0 }
+    if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { game.want_x = 0; game.want_y = -1 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { game.want_x = 0; game.want_y = 1 }
+  }
 }
 
 ///|
@@ -193,6 +205,17 @@ fn update_game(game : Game, dt : Float) -> Unit {
   if game.game_over {
     if @raylib.is_key_pressed(@raylib.KeyR) {
       init_game(game)
+    }
+    // Touch restart
+    let m = @raylib.get_mouse_position()
+    let sw = screen_width
+    let sh = screen_height
+    let action_x = sw - 206
+    let action_y = sh - 154
+    if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+      if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+        init_game(game)
+      }
     }
     return
   }

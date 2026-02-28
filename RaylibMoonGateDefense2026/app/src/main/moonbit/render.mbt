@@ -687,4 +687,22 @@ fn draw_frame(game : Game) -> Unit {
 
   draw_hud(game)
   draw_state_overlay(game)
+
+  // Draw touch controls
+  let ctl_x = 20
+  let ctl_y = screen_h - 176
+  @raylib.draw_rectangle(8, screen_h - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+  @raylib.draw_text("Touch", 56, screen_h - 186, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+  let action_x = screen_w - 206
+  let action_y = screen_h - 154
+  @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+  @raylib.draw_text("PLACE", action_x + 24, action_y + 40, 38, @raylib.white)
 }

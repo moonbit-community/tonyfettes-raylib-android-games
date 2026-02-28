@@ -68,6 +68,12 @@ fn clampi(v : Int, lo : Int, hi : Int) -> Int {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(sw, sh, "Space Trader 2026")
   @raylib.set_target_fps(60)
@@ -120,6 +126,42 @@ fn main {
       }
       if @raylib.is_key_pressed(@raylib.KeyRight) {
         target = clampi(target + 1, 0, planet_count - 1)
+      }
+
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { target = clampi(target - 1, 0, planet_count - 1) }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { target = clampi(target + 1, 0, planet_count - 1) }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { selected_good = clampi(selected_good - 1, 0, goods_count - 1) }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { selected_good = clampi(selected_good + 1, 0, goods_count - 1) }
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+          if target != at && fuel > 0 {
+            let dist = (target - at).abs()
+            let fuel_cost = if dist > 2 { 2 } else { 1 }
+            if fuel >= fuel_cost {
+              fuel = fuel - fuel_cost
+              at = target
+              day = day + 1
+              roll_prices(prices, day)
+              log = "Jumped to \{planet_names[at]}."
+              let roll = @raylib.get_random_value(0, 99)
+              if roll < 18 {
+                let dmg = @raylib.get_random_value(6, 18)
+                hp = hp - dmg
+                log = "Pirate skirmish! Hull -\{dmg}."
+              } else if roll > 90 {
+                let bonus = @raylib.get_random_value(60, 150)
+                cash = cash + bonus
+                log = "Courier tip +\{bonus} credits."
+              }
+            }
+          }
+        }
       }
 
       let price = prices[at * goods_count + selected_good]
@@ -351,6 +393,24 @@ fn main {
       )
       @raylib.draw_text("Press R to restart", 410, 336, 26, @raylib.raywhite)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("TRADE", action_x + 20, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

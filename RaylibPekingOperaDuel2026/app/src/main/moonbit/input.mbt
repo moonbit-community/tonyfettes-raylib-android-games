@@ -39,4 +39,23 @@ fn sample_input(game : Game) -> Unit {
 
   game.input.confirm_pressed = game.input.hit_pressed ||
     @raylib.is_key_pressed(@raylib.KeyEnter)
+
+  // Touch controls
+  let m = @raylib.get_mouse_position()
+  let sw = screen_w
+  let sh = screen_h
+  let ctl_x = 20
+  let ctl_y = sh - 176
+  let action_x = sw - 206
+  let action_y = sh - 154
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { game.input.axis_x = game.input.axis_x - 1 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { game.input.axis_x = game.input.axis_x + 1 }
+    if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { game.input.axis_y = game.input.axis_y - 1 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { game.input.axis_y = game.input.axis_y + 1 }
+    if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+      game.input.hit_pressed = true
+      game.input.confirm_pressed = true
+    }
+  }
 }

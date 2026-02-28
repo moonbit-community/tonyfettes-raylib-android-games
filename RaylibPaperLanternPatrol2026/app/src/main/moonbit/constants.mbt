@@ -356,3 +356,9 @@ fn danger_col() -> @raylib.Color {
 fn calm_col() -> @raylib.Color {
   @raylib.Color::new(118, 212, 252, 255)
 }
+
+///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}

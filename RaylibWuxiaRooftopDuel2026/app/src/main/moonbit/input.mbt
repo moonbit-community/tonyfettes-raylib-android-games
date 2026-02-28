@@ -11,10 +11,23 @@ fn axis(negative : Bool, positive : Bool) -> Float {
 
 ///|
 fn should_start_duel() -> Bool {
-  @raylib.is_key_pressed(@raylib.KeyEnter) ||
-  @raylib.is_key_pressed(@raylib.KeyJ) ||
-  @raylib.is_key_pressed(@raylib.KeyK) ||
-  @raylib.is_key_pressed(@raylib.KeySpace)
+  let start = @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeyJ) ||
+    @raylib.is_key_pressed(@raylib.KeyK) ||
+    @raylib.is_key_pressed(@raylib.KeySpace)
+  if start {
+    return true
+  }
+  // Touch action button
+  let m = @raylib.get_mouse_position()
+  let action_x = screen_w - 206
+  let action_y = screen_h - 154
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+      return true
+    }
+  }
+  false
 }
 
 ///|
@@ -63,6 +76,25 @@ fn update_input(game : Game, _dt : Float) -> Unit {
 
   game.move_x = axis(left, right)
   game.move_y = axis(up, down)
+
+  // Touch D-pad movement
+  let m = @raylib.get_mouse_position()
+  let ctl_x = 20
+  let ctl_y = screen_h - 176
+  if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { game.move_x = -1.0 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { game.move_x = 1.0 }
+    if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { game.move_y = -1.0 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { game.move_y = 1.0 }
+  }
+  // Touch action button - light attack
+  let action_x = screen_w - 206
+  let action_y = screen_h - 154
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+      ignore(try_player_attack(game, attack_light))
+    }
+  }
 
   if absf(game.move_x) + absf(game.move_y) > 0.01 {
     let facing = normalize(game.move_x, game.move_y)

@@ -67,6 +67,12 @@ fn brick_color(hp : Int) -> @raylib.Color {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(arena_w, arena_h, "Breakout Lab 2026")
   @raylib.set_target_fps(60)
@@ -128,6 +134,14 @@ fn main {
         dir = dir + (1.0 : Float)
       }
 
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = arena_h - 176
+      if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { dir = dir - 1.0 }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { dir = dir + 1.0 }
+      }
       paddle_x = paddle_x + dir * (480.0 : Float) * dt
       if paddle_x < (8.0 : Float) {
         paddle_x = 8.0
@@ -298,6 +312,24 @@ fn main {
       )
       @raylib.draw_text("Press R to restart", 372, 372, 26, @raylib.raywhite)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = arena_h - 176
+    @raylib.draw_rectangle(8, arena_h - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, arena_h - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = arena_w - 206
+    let action_y = arena_h - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("PLAY", action_x + 30, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

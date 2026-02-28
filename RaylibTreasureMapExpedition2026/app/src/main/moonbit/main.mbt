@@ -84,6 +84,12 @@ fn reveal(seen : Array[Bool], cx : Int, cy : Int, rad : Int) -> Unit {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(sw, sh, "Treasure Map Expedition 2026")
   @raylib.set_target_fps(60)
@@ -161,6 +167,17 @@ fn main {
         @raylib.is_key_pressed(@raylib.KeyDown) {
         dy = 1
         acted = true
+      }
+
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { dx = -1; acted = true }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { dx = 1; acted = true }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { dy = -1; acted = true }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { dy = 1; acted = true }
       }
 
       if acted {
@@ -323,6 +340,24 @@ fn main {
       @raylib.draw_text("EXPEDITION END", 360, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 450, 386, 34, @raylib.white)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("DIG", action_x + 40, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

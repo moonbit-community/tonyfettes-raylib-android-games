@@ -92,6 +92,12 @@ fn severity_name(sev : Int) -> String {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(sw, sh, "Hospital Triage 2026")
   @raylib.set_target_fps(60)
@@ -159,6 +165,17 @@ fn main {
         if nurse_ward < ward_count - 1 {
           nurse_ward = nurse_ward + 1
         }
+      }
+
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) && nurse_ward > 0 { nurse_ward = nurse_ward - 1 }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) && nurse_ward < ward_count - 1 { nurse_ward = nurse_ward + 1 }
       }
       nx = ward_x(nurse_ward)
 
@@ -246,6 +263,27 @@ fn main {
           treating = true
           patients[pick].alive = false
           msg = "Patient admitted to treatment bed."
+        }
+      }
+      if not(treating) && @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+          let mut pick2 = -1
+          let mut best_y2 : Float = 1_000_000.0
+          for i = 0; i < patients.length(); i = i + 1 {
+            if patients[i].alive && patients[i].ward == nurse_ward {
+              if patients[i].y < best_y2 {
+                best_y2 = patients[i].y
+                pick2 = i
+              }
+            }
+          }
+          if pick2 >= 0 {
+            tr_sev = patients[pick2].severity
+            tr_time_left = treat_time(tr_sev)
+            treating = true
+            patients[pick2].alive = false
+            msg = "Patient admitted to treatment bed."
+          }
         }
       }
 
@@ -421,6 +459,24 @@ fn main {
       )
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("ADMIT", action_x + 20, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

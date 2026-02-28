@@ -761,6 +761,24 @@ fn draw_frame(game : Game) -> Unit {
   draw_controls_legend()
   draw_message(game)
 
+  // Draw touch controls
+  let t_ctl_x = 20
+  let t_ctl_y = screen_h - 176
+  @raylib.draw_rectangle(8, screen_h - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+  @raylib.draw_text("Touch", 56, screen_h - 186, 20, @raylib.white)
+  @raylib.draw_rectangle(t_ctl_x, t_ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("LEFT", t_ctl_x + 12, t_ctl_y + 18, 20, @raylib.white)
+  @raylib.draw_rectangle(t_ctl_x + 82, t_ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("RIGHT", t_ctl_x + 86, t_ctl_y + 18, 20, @raylib.white)
+  @raylib.draw_rectangle(t_ctl_x, t_ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("UP", t_ctl_x + 20, t_ctl_y + 78, 20, @raylib.white)
+  @raylib.draw_rectangle(t_ctl_x + 82, t_ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("DOWN", t_ctl_x + 86, t_ctl_y + 78, 20, @raylib.white)
+  let t_action_x = screen_w - 206
+  let t_action_y = screen_h - 154
+  @raylib.draw_rectangle(t_action_x, t_action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+  @raylib.draw_text("STRIKE", t_action_x + 30, t_action_y + 40, 38, @raylib.white)
+
   if game.state == state_title {
     draw_title_overlay(game)
   } else if game.state == state_paused {

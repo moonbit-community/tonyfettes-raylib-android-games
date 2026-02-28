@@ -1,4 +1,10 @@
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 let sw : Int = 1080
 
 ///|
@@ -166,6 +172,46 @@ fn main {
           player_res = player_res - 90
           ignore(spawn_unit(units, 0, 1, lane_select))
           msg = "Spawned ranger in lane \{lane_select + 1}."
+        }
+      }
+
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) {
+          if lane_select > 0 {
+            lane_select = lane_select - 1
+          }
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) {
+          if lane_select < lanes - 1 {
+            lane_select = lane_select + 1
+          }
+        }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) {
+          if player_res >= 45 {
+            player_res = player_res - 45
+            player_workers = player_workers + 1
+            msg = "Trained 1 worker."
+          }
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) {
+          if player_res >= 90 {
+            player_res = player_res - 90
+            ignore(spawn_unit(units, 0, 1, lane_select))
+            msg = "Spawned ranger in lane \{lane_select + 1}."
+          }
+        }
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+          if player_res >= 70 {
+            player_res = player_res - 70
+            ignore(spawn_unit(units, 0, 0, lane_select))
+            msg = "Spawned swordsman in lane \{lane_select + 1}."
+          }
         }
       }
 
@@ -359,6 +405,24 @@ fn main {
       )
       @raylib.draw_text("Press R to restart", 420, 352, 26, @raylib.raywhite)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LANE-", ctl_x + 6, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LANE+", ctl_x + 84, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("WORKER", ctl_x + 2, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RANGER", ctl_x + 84, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("SWORD", action_x + 24, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

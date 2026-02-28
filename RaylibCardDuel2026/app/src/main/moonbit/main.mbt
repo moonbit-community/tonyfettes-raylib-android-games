@@ -99,6 +99,12 @@ fn enemy_turn(
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(sw, sh, "Card Duel 2026")
   @raylib.set_target_fps(60)
@@ -206,6 +212,76 @@ fn main {
         roll_hand(hand)
       }
 
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        let mut tslot = -1
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { tslot = 0 }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { tslot = 1 }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { tslot = 2 }
+        if tslot >= 0 && tslot < hand.length() && not(won) {
+          let card = hand[tslot]
+          let cost = card_cost(card)
+          if energy >= cost {
+            energy = energy - cost
+            match card {
+              0 => {
+                let (nhp, nblock) = deal_damage(enemy_hp, enemy_block, 6)
+                enemy_hp = nhp
+                enemy_block = nblock
+                log = "Played Strike for 6."
+              }
+              1 => {
+                player_block = player_block + 7
+                log = "Played Guard (+7 block)."
+              }
+              2 => {
+                let (nhp, nblock) = deal_damage(enemy_hp, enemy_block, 12)
+                enemy_hp = nhp
+                enemy_block = nblock
+                log = "Played Burst for 12."
+              }
+              3 => {
+                enemy_block = 0
+                let (nhp, nblock) = deal_damage(enemy_hp, enemy_block, 4)
+                enemy_hp = nhp
+                enemy_block = nblock
+                log = "Played Sap (break +4)."
+              }
+              _ => {
+                player_hp = player_hp + 6
+                if player_hp > 80 { player_hp = 80 }
+                log = "Played Repair (+6 hp)."
+              }
+            }
+            if enemy_hp <= 0 {
+              won = true
+            } else {
+              ignore(hand.remove(tslot))
+            }
+          }
+        }
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) && not(won) {
+          let (php, pblk, ehp, eblk, turn_log) = enemy_turn(
+            player_hp, player_block, enemy_hp, enemy_block, turn_no,
+          )
+          player_hp = php
+          player_block = pblk
+          enemy_hp = ehp
+          enemy_block = eblk
+          log = turn_log
+          turn_no = turn_no + 1
+          energy = 3
+          player_block = if player_block > 0 { player_block - 2 } else { 0 }
+          enemy_block = if enemy_block > 0 { enemy_block - 2 } else { 0 }
+          roll_hand(hand)
+        }
+      }
+
       if player_hp <= 0 {
         lost = true
       }
@@ -304,6 +380,25 @@ fn main {
       )
       @raylib.draw_text("Press R to rematch", 384, 336, 26, @raylib.raywhite)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("END", action_x + 40, action_y + 24, 38, @raylib.white)
+    @raylib.draw_text("TURN", action_x + 30, action_y + 66, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

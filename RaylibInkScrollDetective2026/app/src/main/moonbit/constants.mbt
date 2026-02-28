@@ -246,3 +246,9 @@ fn incident_need_score(severity : Int) -> Int {
 fn incident_timer_for_severity(severity : Int) -> Float {
   incident_timer_base - Float::from_int(severity - 1) * incident_timer_drop
 }
+
+///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}

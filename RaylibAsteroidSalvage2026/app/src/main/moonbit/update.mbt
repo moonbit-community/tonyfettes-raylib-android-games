@@ -47,6 +47,29 @@ fn update_ship(game : Game, dt : Float) -> Unit {
     game.ship_vy = game.ship_vy + dir_y * thrust * dt
   }
 
+  // Touch controls
+  let m = @raylib.get_mouse_position()
+  let ctl_x = 20
+  let ctl_y = screen_height - 176
+  if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) {
+      game.ship_angle = game.ship_angle - rotate_speed * dt
+    }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) {
+      game.ship_angle = game.ship_angle + rotate_speed * dt
+    }
+    if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) {
+      let td_x : Float = Float::from_double(
+        @math.cos(game.ship_angle.to_double()),
+      )
+      let td_y : Float = Float::from_double(
+        @math.sin(game.ship_angle.to_double()),
+      )
+      game.ship_vx = game.ship_vx + td_x * thrust * dt
+      game.ship_vy = game.ship_vy + td_y * thrust * dt
+    }
+  }
+
   let damping : Float = (1.0 : Float) - (0.35 : Float) * dt
   game.ship_vx = game.ship_vx * damping
   game.ship_vy = game.ship_vy * damping
@@ -73,6 +96,14 @@ fn update_ship(game : Game, dt : Float) -> Unit {
     ) &&
     game.fire_cooldown <= 0.0 {
     fire_bullet(game)
+  }
+  let action_x = screen_width - 206
+  let action_y = screen_height - 154
+  if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) &&
+    game.fire_cooldown <= 0.0 {
+    if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+      fire_bullet(game)
+    }
   }
 }
 
@@ -198,6 +229,14 @@ fn update_game(game : Game, dt : Float) -> Unit {
   if game.game_over {
     if @raylib.is_key_pressed(@raylib.KeyR) {
       reset_game(game)
+    }
+    if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+      let mr = @raylib.get_mouse_position()
+      let ax = screen_width - 206
+      let ay = screen_height - 154
+      if inside_rect(mr.x, mr.y, ax, ay, 176, 120) {
+        reset_game(game)
+      }
     }
     return
   }

@@ -140,6 +140,12 @@ fn ball_vs_bumper(ball : Ball, bx : Float, by : Float, r : Float) -> Bool {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(screen_w, screen_h, "Pinball Workshop 2026")
   @raylib.set_target_fps(60)
@@ -180,14 +186,31 @@ fn main {
     }
 
     if not(game_over) {
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = screen_h - 176
+      let action_x = screen_w - 206
+      let action_y = screen_h - 154
       if not(ball.live) && @raylib.is_key_pressed(@raylib.KeySpace) {
         ball.live = true
         ball.vx = -190.0
         ball.vy = -260.0
       }
+      if not(ball.live) && @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+          ball.live = true
+          ball.vx = -190.0
+          ball.vy = -260.0
+        }
+      }
 
-      let left_up = @raylib.is_key_down(@raylib.KeyA)
-      let right_up = @raylib.is_key_down(@raylib.KeyD)
+      let mut left_up = @raylib.is_key_down(@raylib.KeyA)
+      let mut right_up = @raylib.is_key_down(@raylib.KeyD)
+      // Touch controls
+      if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { left_up = true }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { right_up = true }
+      }
 
       if left_up {
         left_flipper.angle = left_flipper.angle - flipper_speed * dt
@@ -341,6 +364,24 @@ fn main {
       @raylib.draw_text("GAME OVER", 368, 322, 40, @raylib.red)
       @raylib.draw_text("Press R to restart", 350, 365, 24, @raylib.raywhite)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = screen_h - 176
+    @raylib.draw_rectangle(8, screen_h - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, screen_h - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = screen_w - 206
+    let action_y = screen_h - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("LAUNCH", action_x + 10, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

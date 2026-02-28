@@ -167,5 +167,23 @@ fn draw_game(game : Game) -> Unit {
     )
   }
 
+  // Draw touch controls
+  let ctl_x = 20
+  let ctl_y = screen_height - 176
+  @raylib.draw_rectangle(8, screen_height - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+  @raylib.draw_text("Touch", 56, screen_height - 186, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("ROTATE", ctl_x + 4, ctl_y + 78, 20, @raylib.white)
+  @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+  @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+  let action_x = screen_width - 206
+  let action_y = screen_height - 154
+  @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+  @raylib.draw_text("DROP", action_x + 30, action_y + 40, 38, @raylib.white)
+
   @raylib.end_drawing()
 }

@@ -261,6 +261,34 @@ fn update_game(game : Game, dt : Float) -> Unit {
     }
   }
 
+  // Touch controls
+  let m = @raylib.get_mouse_position()
+  let ctl_x = 20
+  let ctl_y = screen_height - 176
+  let action_x = screen_width - 206
+  let action_y = screen_height - 154
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) {
+      ignore(try_move(game, -1, 0))
+    }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) {
+      ignore(try_move(game, 1, 0))
+    }
+    if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) {
+      try_rotate(game, 1)
+    }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) {
+      if try_move(game, 0, 1) {
+        game.score = game.score + 1
+      }
+    }
+    if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+      hard_drop(game)
+      game.drop_timer = 0.0
+      return
+    }
+  }
+
   let speed_scale : Float = if @raylib.is_key_down(@raylib.KeyDown) {
     (0.08 : Float)
   } else {

@@ -315,3 +315,9 @@ fn ellipse_norm(dx : Float, dy : Float, rx : Float, ry : Float) -> Float {
   let ny = dy / maxf(ry, 0.001)
   sqrtf(nx * nx + ny * ny)
 }
+
+///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}

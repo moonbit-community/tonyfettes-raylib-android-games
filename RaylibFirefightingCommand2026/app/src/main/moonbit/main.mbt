@@ -60,6 +60,12 @@ fn active_fire_count(zones : Array[Zone]) -> Int {
 }
 
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 fn main {
   @raylib.init_window(sw, sh, "Firefighting Command 2026")
   @raylib.set_target_fps(60)
@@ -132,6 +138,26 @@ fn main {
           truck_r = truck_r + 1
         }
       }
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) {
+          if truck_c > 0 { truck_c = truck_c - 1 }
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) {
+          if truck_c < cols - 1 { truck_c = truck_c + 1 }
+        }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) {
+          if truck_r > 0 { truck_r = truck_r - 1 }
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) {
+          if truck_r < rows - 1 { truck_r = truck_r + 1 }
+        }
+      }
       truck_x = cell_x(truck_c)
       truck_y = cell_y(truck_r)
 
@@ -147,6 +173,20 @@ fn main {
           @raylib.is_key_down(@raylib.KeySpace) ||
           @raylib.is_key_down(@raylib.KeyJ)
         ) &&
+        water > 0.0 {
+        if zones[at].fire > 0.0 {
+          zones[at].fire = zones[at].fire - dt * 48.0
+          water = water - dt * 24.0
+          if zones[at].fire <= 0.0 {
+            zones[at].fire = 0.0
+            saved = saved + 1
+            budget = budget + 30
+            msg = "Fire extinguished."
+          }
+        }
+      }
+      if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) &&
+        inside_rect(m.x, m.y, action_x, action_y, 176, 120) &&
         water > 0.0 {
         if zones[at].fire > 0.0 {
           zones[at].fire = zones[at].fire - dt * 48.0
@@ -361,6 +401,24 @@ fn main {
       @raylib.draw_text("CITY LOST", 455, 312, 52, @raylib.red)
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("UP", ctl_x + 20, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("SPRAY", action_x + 30, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

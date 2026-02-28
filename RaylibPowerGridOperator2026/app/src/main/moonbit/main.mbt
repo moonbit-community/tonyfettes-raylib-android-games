@@ -1,4 +1,10 @@
 ///|
+fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
+  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+}
+
+///|
 let sw : Int = 1140
 
 ///|
@@ -122,6 +128,36 @@ fn main {
         emergency_time = 6.0
         emergency_cd = 20.0
         msg = "Emergency battery online."
+      }
+
+      // Touch controls
+      let m = @raylib.get_mouse_position()
+      let ctl_x = 20
+      let ctl_y = sh - 176
+      let action_x = sw - 206
+      let action_y = sh - 154
+      if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) {
+          plant_output[0] = clamp_int(plant_output[0] + 2, 0, 220)
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) {
+          plant_output[2] = clamp_int(plant_output[2] + 2, 0, 220)
+        }
+        if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) {
+          plant_output[1] = clamp_int(plant_output[1] + 2, 0, 220)
+        }
+        if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) {
+          plant_output[1] = clamp_int(plant_output[1] - 2, 0, 220)
+        }
+      }
+      if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+        if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+          if emergency_cd <= 0.0 {
+            emergency_time = 6.0
+            emergency_cd = 20.0
+            msg = "Emergency battery online."
+          }
+        }
       }
 
       tick = tick + dt
@@ -346,6 +382,24 @@ fn main {
       @raylib.draw_text("GRID COLLAPSE", 415, 316, 56, @raylib.red)
       @raylib.draw_text("Press R to restart", 445, 378, 34, @raylib.white)
     }
+
+    // Draw touch controls
+    let ctl_x = 20
+    let ctl_y = sh - 176
+    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("P1+", ctl_x + 16, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("P3+", ctl_x + 96, ctl_y + 18, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("P2+", ctl_x + 16, ctl_y + 78, 20, @raylib.white)
+    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_text("P2-", ctl_x + 96, ctl_y + 78, 20, @raylib.white)
+    let action_x = sw - 206
+    let action_y = sh - 154
+    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_text("BATTERY", action_x + 14, action_y + 40, 38, @raylib.white)
 
     @raylib.end_drawing()
   }

@@ -39,4 +39,27 @@ fn update_input(game : Game) -> Unit {
   game.input.press_start = game.input.press_interact ||
     game.input.press_calm ||
     @raylib.is_key_pressed(@raylib.KeyEnter)
+
+  // Touch controls
+  let m = @raylib.get_mouse_position()
+  let sw = screen_w
+  let sh = screen_h
+  let ctl_x = 20
+  let ctl_y = sh - 176
+  let action_x = sw - 206
+  let action_y = sh - 154
+  if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, ctl_x, ctl_y, 74, 54) { game.input.move_x = game.input.move_x - 1 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y, 74, 54) { game.input.move_x = game.input.move_x + 1 }
+    if inside_rect(m.x, m.y, ctl_x, ctl_y + 60, 74, 54) { game.input.move_y = game.input.move_y - 1 }
+    if inside_rect(m.x, m.y, ctl_x + 82, ctl_y + 60, 74, 54) { game.input.move_y = game.input.move_y + 1 }
+  }
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if inside_rect(m.x, m.y, action_x, action_y, 176, 120) {
+      game.input.press_interact = true
+      game.input.press_start = true
+    }
+  }
+  game.input.move_x = clampi(game.input.move_x, -1, 1)
+  game.input.move_y = clampi(game.input.move_y, -1, 1)
 }
