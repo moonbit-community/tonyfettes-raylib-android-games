@@ -1,6 +1,17 @@
 cmake_minimum_required(VERSION 3.22.1)
 project("raylibnetworkcurl" C)
 
+# --- Sanitizer options ---
+option(ENABLE_HWASAN "Enable HWASan for memory error detection (arm64 only)" OFF)
+option(ENABLE_ASAN "Enable ASan for memory error detection" OFF)
+if(ENABLE_HWASAN)
+    add_compile_options(-fsanitize=hwaddress -fno-omit-frame-pointer -g)
+    add_link_options(-fsanitize=hwaddress)
+elseif(ENABLE_ASAN)
+    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
+    add_link_options(-fsanitize=address)
+endif()
+
 # --- Paths ---
 set(MOONBIT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../moonbit)
 set(NATIVE_APP_GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
@@ -67,3 +78,28 @@ target_compile_definitions(raylibnetworkcurl PUBLIC PLATFORM_ANDROID)
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 
 target_link_libraries(raylibnetworkcurl raylib_moonbit dl)
+
+# --- Sanitizer: copy runtime .so into APK so the dynamic linker finds it ---
+set(_CLANG_RT_DIR "${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/${ANDROID_HOST_TAG}/lib/clang/19/lib/linux")
+if(ENABLE_HWASAN)
+    set(_SAN_RT "${_CLANG_RT_DIR}/libclang_rt.hwasan-aarch64-android.so")
+elseif(ENABLE_ASAN)
+    set(_SAN_RT "${_CLANG_RT_DIR}/libclang_rt.asan-${CMAKE_ANDROID_ARCH_ABI_ALIAS}-android.so")
+    # Map ABI to clang triple
+    if(ANDROID_ABI STREQUAL "arm64-v8a")
+        set(_SAN_RT "${_CLANG_RT_DIR}/libclang_rt.asan-aarch64-android.so")
+    elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
+        set(_SAN_RT "${_CLANG_RT_DIR}/libclang_rt.asan-arm-android.so")
+    elseif(ANDROID_ABI STREQUAL "x86_64")
+        set(_SAN_RT "${_CLANG_RT_DIR}/libclang_rt.asan-x86_64-android.so")
+    endif()
+endif()
+if(DEFINED _SAN_RT AND EXISTS "${_SAN_RT}")
+    add_custom_command(TARGET raylibnetworkcurl POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${_SAN_RT}" "$<TARGET_FILE_DIR:raylibnetworkcurl>/"
+        COMMENT "Bundling sanitizer runtime into APK"
+    )
+elseif(DEFINED _SAN_RT)
+    message(WARNING "Sanitizer runtime not found at ${_SAN_RT}")
+endif()
