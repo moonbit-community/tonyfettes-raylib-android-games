@@ -15,7 +15,7 @@ LOGCAT_DIR="${BASE_DIR}/logcat"
 mkdir -p "${BUILD_LOGS_DIR}" "${LOGCAT_DIR}"
 
 # Ensure ANDROID_HOME is set (needed by Gradle when local.properties is absent)
-export ANDROID_HOME="${ANDROID_HOME:-/Users/haoxiang/Library/Android/sdk}"
+export ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
 
 # ─── Helpers ────────────────────────────────────────────────────────────────
 

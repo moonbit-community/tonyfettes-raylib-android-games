@@ -13,7 +13,7 @@
 set -euo pipefail
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-export ANDROID_HOME="${ANDROID_HOME:-/Users/haoxiang/Library/Android/sdk}"
+export ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
 MAX_PARALLEL="${MAX_PARALLEL:-8}"
 BUILD_LOGS_DIR="${BUILD_LOGS_DIR:-${BASE_DIR}/build_logs}"
 mkdir -p "${BUILD_LOGS_DIR}"
