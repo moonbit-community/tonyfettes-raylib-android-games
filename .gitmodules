@@ -1,3 +1,9 @@
 [submodule "raylib"]
 	path = raylib
 	url = https://github.com/moonbit-community/tonyfettes-raylib
+[submodule "RaylibMinesweeper"]
+	path = RaylibMinesweeper
+	url = https://github.com/moonbit-community/tonyfettes-android-raylib-minesweeper
+[submodule "RaylibBattleCity"]
+	path = RaylibBattleCity
+	url = https://github.com/moonbit-community/tonyfettes-android-raylib-battle-city
