@@ -2,7 +2,7 @@
   "name": "tonyfettes/raylibpinballworkshop2026",
   "version": "0.1.0",
   "deps": {
-    "tonyfettes/raylib": { "path": "/Users/haoxiang/Workspace/moonbit/raylib" }
+    "tonyfettes/raylib": { "path": "../../../../../raylib" }
   },
   "preferred-target": "native"
 }

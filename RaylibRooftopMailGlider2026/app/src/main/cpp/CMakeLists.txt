@@ -13,7 +13,7 @@ else()
 endif()
 
 # Raylib + MoonBit bindings from mooncakes.io (tonyfettes/raylib)
-set(RAYLIB_BINDINGS_DIR /Users/haoxiang/Workspace/moonbit/raylib/internal/raylib)
+set(RAYLIB_BINDINGS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../raylib/internal/raylib)
 set(RAYLIB_SRC_DIR ${RAYLIB_BINDINGS_DIR})
 
 # --- Find moon CLI ---
