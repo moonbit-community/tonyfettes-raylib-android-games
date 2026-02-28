@@ -13,34 +13,27 @@ All projects use the **`raylib/`** git submodule (`tonyfettes/raylib`) as a loca
 
 ## Prerequisites
 
-- **Android SDK** at `~/Library/Android/sdk` (or set `ANDROID_HOME`)
+- **Android SDK** (set `ANDROID_HOME` if not at the default location)
 - **Android NDK** 28.x (installed via SDK Manager)
 - **CMake** 3.22.1 (installed via SDK Manager)
-- **Java 21** — use Android Studio's bundled JBR: `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"`
-- **MoonBit** (`moon` CLI) at `~/.moon/bin/moon`
+- **Java 21+** — system JDK or Android Studio's bundled JBR both work. Ensure `java` is on `PATH` or set `JAVA_HOME`.
+- **MoonBit** (`moon` CLI) — ensure `moon` is on `PATH`
 
 ## Build Commands
 
 ```bash
 # Build a single project
 cd RaylibCoreBasicWindow
-JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" \
-ANDROID_HOME="$HOME/Library/Android/sdk" \
-PATH="$HOME/.moon/bin:$JAVA_HOME/bin:$PATH" \
 ./gradlew assembleDebug --no-daemon
 
 # Build all game projects in parallel (uses scripts/build_games.sh)
-JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" \
-PATH="$HOME/.moon/bin:$JAVA_HOME/bin:$PATH" \
 bash scripts/build_games.sh
 
 # Build specific projects
-JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" \
-PATH="$HOME/.moon/bin:$JAVA_HOME/bin:$PATH" \
 bash scripts/build_games.sh RaylibCoreBasicWindow RaylibShapesBouncingBall
 
-# Install & launch on emulator
-adb install -r RaylibCoreBasicWindow/app/build/intermediates/apk/debug/app-debug.apk
+# Install & launch on emulator/device
+adb install -r RaylibCoreBasicWindow/app/build/outputs/apk/debug/app-debug.apk
 adb shell am start -n com.example.raylibcorebasicwindow/android.app.NativeActivity
 ```
 
@@ -77,6 +70,15 @@ Raylib<Name>/
   - CMakeLists.txt uses `${CMAKE_CURRENT_SOURCE_DIR}/../../../../../raylib/internal/raylib` for C sources
 - **`scripts/build_games.sh`** — Parallel build script (default 8 jobs, configurable via `MAX_PARALLEL`)
 - **`scripts/upload_apks.sh`** — Upload built APKs
+
+## Gotchas
+
+- **`build_games.sh` only builds game projects by default** — It filters to `*2026` + classic games. To build example/demo projects, pass them explicitly: `bash scripts/build_games.sh RaylibCoreBasicWindow`.
+- **`local.properties` must exist** in each project with `sdk.dir=...`. The build script creates it automatically, but for manual single-project builds you may need to create it first.
+- **APK output path** is `app/build/outputs/apk/debug/app-debug.apk`.
+- **All apps use `android.app.NativeActivity`** — there is no custom Java Activity class.
+- **If `java` is not on PATH**, set `JAVA_HOME` to your JDK or to Android Studio's bundled JBR (e.g. on macOS: `/Applications/Android Studio.app/Contents/jbr/Contents/Home`).
+- **If `moon` is not on PATH**, add it (e.g. `export PATH="$HOME/.moon/bin:$PATH"`).
 
 ## Conventions
 
