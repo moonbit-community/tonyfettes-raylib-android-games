@@ -54,6 +54,9 @@ jobs:
       - name: Verify MoonBit
         run: moon version
 
+      - name: Update MoonBit registry
+        run: moon update
+
       - name: Install Android NDK
         env:
           NDK_VERSION: 28.2.13676358
