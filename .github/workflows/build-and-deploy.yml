@@ -57,11 +57,11 @@ jobs:
       - name: Update MoonBit registry
         run: moon update
 
-      - name: Install Android NDK
+      - name: Install Android NDK and CMake
         env:
           NDK_VERSION: 28.2.13676358
         run: |
-          ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "ndk;${NDK_VERSION}"
+          ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "ndk;${NDK_VERSION}" "cmake;3.22.1"
 
       - name: Build projects
         env:
