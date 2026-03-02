@@ -41,6 +41,7 @@ set(MOONBIT_GENERATED_C ${MOONBIT_DIR}/_build/native/debug/build/raylibnetworkcu
 add_custom_target(moonbit_codegen ALL
     COMMAND ${MOON_EXECUTABLE} build --target native
     WORKING_DIRECTORY ${MOONBIT_DIR}
+    BYPRODUCTS ${MOONBIT_GENERATED_C}
     COMMENT "Compiling MoonBit to C"
 )
 
