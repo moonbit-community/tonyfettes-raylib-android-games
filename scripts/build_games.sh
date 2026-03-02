@@ -64,7 +64,8 @@ for proj_dir in "${PROJECTS[@]}"; do
     proj_name=$(basename "${proj_dir}")
     (
         log="${BUILD_LOGS_DIR}/${proj_name}.log"
-        if cd "${proj_dir}" && ./gradlew assembleDebug --no-daemon -q \
+        if cd "${proj_dir}" && GRADLE_USER_HOME="${RESULTS_DIR}/.gradle_${proj_name}" \
+                ./gradlew assembleDebug --no-daemon -q \
                 >"${log}" 2>&1; then
             echo "PASS" > "${RESULTS_DIR}/${proj_name}"
         else
