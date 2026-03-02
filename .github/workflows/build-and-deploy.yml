@@ -29,11 +29,11 @@ jobs:
       matrix:
         include:
           - chunk: A-F
-            pattern: 'RaylibA* RaylibB* RaylibBattleCity RaylibBomberman1983Lite RaylibC* RaylibContra1987Lite RaylibD* RaylibE* RaylibF* RaylibFighter97Lite'
+            pattern: 'RaylibA* RaylibB* RaylibC* RaylibD* RaylibE* RaylibF*'
           - chunk: G-M
-            pattern: 'RaylibG* RaylibH* RaylibI* RaylibJ* RaylibJackal1988Lite RaylibK* RaylibL* RaylibM* RaylibMinesweeper'
+            pattern: 'RaylibG* RaylibH* RaylibI* RaylibJ* RaylibK* RaylibL* RaylibM*'
           - chunk: N-Z
-            pattern: 'RaylibN* RaylibO* RaylibP* RaylibQ* RaylibR* RaylibS* RaylibSuperMario1985Lite RaylibT* RaylibU* RaylibV* RaylibW* RaylibX* RaylibY* RaylibZ*'
+            pattern: 'RaylibN* RaylibO* RaylibP* RaylibQ* RaylibR* RaylibS* RaylibT* RaylibU* RaylibV* RaylibW* RaylibX* RaylibY* RaylibZ*'
 
     steps:
       - uses: actions/checkout@v4
@@ -90,7 +90,7 @@ jobs:
       - name: Collect APKs
         run: |
           mkdir -p /tmp/apks
-          find . -maxdepth 5 -name "app-debug.apk" -path "*/outputs/apk/debug/*" | \
+          find . -maxdepth 8 -name "app-debug.apk" -path "*/outputs/apk/debug/*" | \
           while read apk; do
             proj=$(echo "$apk" | cut -d/ -f2)
             cp "$apk" "/tmp/apks/${proj}.apk"
