@@ -25,7 +25,7 @@ jobs:
     name: Build (${{ matrix.chunk }})
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
           - chunk: A-F
@@ -57,6 +57,11 @@ jobs:
       - name: Update MoonBit registry
         run: moon update
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl-dev
+
       - name: Install Android NDK and CMake
         env:
           NDK_VERSION: 28.2.13676358
@@ -66,6 +71,7 @@ jobs:
       - name: Build projects
         env:
           MAX_PARALLEL: '4'
+          FAIL_FAST: 'true'
         run: |
           if [[ -n "${{ github.event.inputs.projects }}" ]]; then
             bash scripts/build_games.sh ${{ github.event.inputs.projects }}

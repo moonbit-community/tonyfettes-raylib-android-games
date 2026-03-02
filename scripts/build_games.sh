@@ -50,10 +50,17 @@ for proj_dir in "${PROJECTS[@]}"; do
 done
 
 # ── Parallel builds ───────────────────────────────────────────────────────────
+FAIL_FAST="${FAIL_FAST:-false}"
 RESULTS_DIR=$(mktemp -d)
+FAIL_FLAG="${RESULTS_DIR}/.fail_fast"
 PIDS=()
 
 for proj_dir in "${PROJECTS[@]}"; do
+    # If fail-fast triggered, stop launching new builds
+    if [[ "${FAIL_FAST}" == "true" ]] && [[ -f "${FAIL_FLAG}" ]]; then
+        break
+    fi
+
     proj_name=$(basename "${proj_dir}")
     (
         log="${BUILD_LOGS_DIR}/${proj_name}.log"
@@ -62,11 +69,20 @@ for proj_dir in "${PROJECTS[@]}"; do
             echo "PASS" > "${RESULTS_DIR}/${proj_name}"
         else
             echo "FAIL" > "${RESULTS_DIR}/${proj_name}"
+            if [[ "${FAIL_FAST}" == "true" ]]; then
+                touch "${FAIL_FLAG}"
+            fi
         fi
     ) &
     PIDS+=($!)
 
-    while (( $(jobs -rp | wc -l) >= MAX_PARALLEL )); do sleep 1; done
+    while (( $(jobs -rp | wc -l) >= MAX_PARALLEL )); do
+        # Check fail-fast between polls
+        if [[ "${FAIL_FAST}" == "true" ]] && [[ -f "${FAIL_FLAG}" ]]; then
+            break
+        fi
+        sleep 1
+    done
 done
 
 for pid in "${PIDS[@]}"; do wait "${pid}" || true; done
@@ -75,10 +91,10 @@ for pid in "${PIDS[@]}"; do wait "${pid}" || true; done
 PASS=0; FAIL=0; FAIL_NAMES=()
 for proj_dir in "${PROJECTS[@]}"; do
     proj_name=$(basename "${proj_dir}")
-    result=$(cat "${RESULTS_DIR}/${proj_name}" 2>/dev/null || echo FAIL)
+    result=$(cat "${RESULTS_DIR}/${proj_name}" 2>/dev/null || echo SKIP)
     if [[ "$result" == "PASS" ]]; then
         ((PASS++)) || true
-    else
+    elif [[ "$result" == "FAIL" ]]; then
         ((FAIL++)) || true
         FAIL_NAMES+=("$proj_name")
     fi
