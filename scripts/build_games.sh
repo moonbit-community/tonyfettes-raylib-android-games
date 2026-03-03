@@ -22,11 +22,15 @@ CLASSIC_GAMES="RaylibBattleCity RaylibMinesweeper RaylibContra1987Lite \
                RaylibSuperMario1985Lite RaylibFighter97Lite RaylibJackal1988Lite \
                RaylibBomberman1983Lite"
 
+# Projects to skip (e.g. missing source files)
+SKIP_PROJECTS="RaylibShadersGameOfLife"
+
 # ── Discover projects ─────────────────────────────────────────────────────────
 if [[ $# -gt 0 ]]; then
     # Explicit list passed as arguments
     PROJECTS=()
     for name in "$@"; do
+        [[ " $SKIP_PROJECTS " == *" $name "* ]] && continue
         d="${BASE_DIR}/${name}"
         [[ -f "${d}/gradlew" ]] && PROJECTS+=("$d")
     done
@@ -35,6 +39,7 @@ else
     while IFS= read -r d; do
         name=$(basename "$d")
         [[ ! -f "${d}/gradlew" ]] && continue
+        [[ " $SKIP_PROJECTS " == *" $name "* ]] && continue
         if [[ "$name" == *2026 ]] || [[ " $CLASSIC_GAMES " == *" $name "* ]]; then
             PROJECTS+=("$d")
         fi
