@@ -25,7 +25,7 @@ jobs:
     name: Build (${{ matrix.chunk }})
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - chunk: A-F
@@ -71,7 +71,7 @@ jobs:
       - name: Build projects
         env:
           MAX_PARALLEL: '4'
-          FAIL_FAST: 'true'
+          MAX_RETRIES: '2'
         run: |
           if [[ -n "${{ github.event.inputs.projects }}" ]]; then
             bash scripts/build_games.sh ${{ github.event.inputs.projects }}
@@ -88,6 +88,7 @@ jobs:
           fi
 
       - name: Collect APKs
+        if: always()
         run: |
           mkdir -p /tmp/apks
           find . -maxdepth 8 -name "app-debug.apk" -path "*/outputs/apk/debug/*" | \
@@ -95,27 +96,31 @@ jobs:
             proj=$(echo "$apk" | cut -d/ -f2)
             cp "$apk" "/tmp/apks/${proj}.apk"
           done
-          ls /tmp/apks/ | wc -l
+          echo "Collected $(ls /tmp/apks/ 2>/dev/null | wc -l) APKs"
 
       - name: Upload APK artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: apks-${{ matrix.chunk }}
           path: /tmp/apks/*.apk
           retention-days: 1
+          if-no-files-found: ignore
 
-      - name: Upload build logs on failure
-        if: failure()
+      - name: Upload build logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-logs-${{ matrix.chunk }}
           path: build_logs/
           retention-days: 3
+          if-no-files-found: ignore
 
   # ── Job 2: Upload APKs to S3 + regenerate GitHub Pages ────────────────────
   deploy:
     name: Deploy
     needs: build
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -144,7 +149,13 @@ jobs:
           S3_BUCKET: moonbit-raylib-android-games
           AWS_REGION: us-west-2
         run: |
-          for apk in /tmp/apks/*.apk; do
+          shopt -s nullglob
+          apks=(/tmp/apks/*.apk)
+          if (( ${#apks[@]} == 0 )); then
+            echo "No APKs to upload, skipping."
+            exit 0
+          fi
+          for apk in "${apks[@]}"; do
             name=$(basename "$apk")
             echo "Uploading $name ..."
             aws s3 cp "$apk" "s3://${S3_BUCKET}/${name}" \
@@ -152,7 +163,7 @@ jobs:
               --content-type "application/vnd.android.package-archive" \
               --no-progress
           done
-          echo "Uploaded $(ls /tmp/apks/*.apk | wc -l) APKs."
+          echo "Uploaded ${#apks[@]} APKs."
 
       - name: Set up Python
         uses: actions/setup-python@v5

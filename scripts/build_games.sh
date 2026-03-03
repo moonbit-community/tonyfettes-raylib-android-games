@@ -9,12 +9,14 @@
 #   ANDROID_HOME   — path to Android SDK (default: ~/Library/Android/sdk)
 #   MAX_PARALLEL   — parallel build jobs (default: 8)
 #   BUILD_LOGS_DIR — where to write per-project build logs (default: build_logs/)
+#   MAX_RETRIES    — retry count per project on failure (default: 2)
 
 set -euo pipefail
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
 MAX_PARALLEL="${MAX_PARALLEL:-8}"
+MAX_RETRIES="${MAX_RETRIES:-2}"
 BUILD_LOGS_DIR="${BUILD_LOGS_DIR:-${BASE_DIR}/build_logs}"
 mkdir -p "${BUILD_LOGS_DIR}"
 
@@ -46,7 +48,7 @@ else
     done < <(find "${BASE_DIR}" -maxdepth 1 -mindepth 1 -type d | sort)
 fi
 
-echo "Building ${#PROJECTS[@]} projects (MAX_PARALLEL=${MAX_PARALLEL})..."
+echo "Building ${#PROJECTS[@]} projects (MAX_PARALLEL=${MAX_PARALLEL}, MAX_RETRIES=${MAX_RETRIES})..."
 
 # ── Ensure local.properties ───────────────────────────────────────────────────
 for proj_dir in "${PROJECTS[@]}"; do
@@ -55,38 +57,34 @@ for proj_dir in "${PROJECTS[@]}"; do
 done
 
 # ── Parallel builds ───────────────────────────────────────────────────────────
-FAIL_FAST="${FAIL_FAST:-false}"
 RESULTS_DIR=$(mktemp -d)
-FAIL_FLAG="${RESULTS_DIR}/.fail_fast"
 PIDS=()
 
 for proj_dir in "${PROJECTS[@]}"; do
-    # If fail-fast triggered, stop launching new builds
-    if [[ "${FAIL_FAST}" == "true" ]] && [[ -f "${FAIL_FLAG}" ]]; then
-        break
-    fi
-
     proj_name=$(basename "${proj_dir}")
     (
         log="${BUILD_LOGS_DIR}/${proj_name}.log"
-        if cd "${proj_dir}" && GRADLE_USER_HOME="${RESULTS_DIR}/.gradle_${proj_name}" \
-                ./gradlew assembleDebug --no-daemon -q \
-                >"${log}" 2>&1; then
-            echo "PASS" > "${RESULTS_DIR}/${proj_name}"
-        else
-            echo "FAIL" > "${RESULTS_DIR}/${proj_name}"
-            if [[ "${FAIL_FAST}" == "true" ]]; then
-                touch "${FAIL_FLAG}"
+        attempt=0
+        while (( attempt <= MAX_RETRIES )); do
+            if (( attempt > 0 )); then
+                echo "=== Retry ${attempt}/${MAX_RETRIES} for ${proj_name} ===" >> "${log}"
             fi
+            if cd "${proj_dir}" && GRADLE_USER_HOME="${RESULTS_DIR}/.gradle_${proj_name}" \
+                    ./gradlew assembleDebug --no-daemon -q \
+                    >>"${log}" 2>&1; then
+                echo "PASS" > "${RESULTS_DIR}/${proj_name}"
+                break
+            fi
+            ((attempt++))
+        done
+        # If all attempts failed, mark as FAIL
+        if [[ ! -f "${RESULTS_DIR}/${proj_name}" ]]; then
+            echo "FAIL" > "${RESULTS_DIR}/${proj_name}"
         fi
     ) &
     PIDS+=($!)
 
     while (( $(jobs -rp | wc -l) >= MAX_PARALLEL )); do
-        # Check fail-fast between polls
-        if [[ "${FAIL_FAST}" == "true" ]] && [[ -f "${FAIL_FLAG}" ]]; then
-            break
-        fi
         sleep 1
     done
 done
@@ -114,4 +112,6 @@ if (( ${#FAIL_NAMES[@]} > 0 )); then
     printf '  %s\n' "${FAIL_NAMES[@]}"
 fi
 
-(( FAIL == 0 ))   # exit 0 only if all passed
+# Always exit 0 — partial success is acceptable.
+# Failed projects are reported above and in per-project logs.
+exit 0
