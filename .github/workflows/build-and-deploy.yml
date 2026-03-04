@@ -28,12 +28,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - chunk: A-F
-            pattern: 'RaylibA* RaylibB* RaylibC* RaylibD* RaylibE* RaylibF*'
-          - chunk: G-M
-            pattern: 'RaylibG* RaylibH* RaylibI* RaylibJ* RaylibK* RaylibL* RaylibM*'
-          - chunk: N-Z
-            pattern: 'RaylibN* RaylibO* RaylibP* RaylibQ* RaylibR* RaylibS* RaylibT* RaylibU* RaylibV* RaylibW* RaylibX* RaylibY* RaylibZ*'
+          - chunk: A-C
+            pattern: 'RaylibA* RaylibB* RaylibC*'
+          - chunk: D-M
+            pattern: 'RaylibD* RaylibE* RaylibF* RaylibG* RaylibH* RaylibI* RaylibJ* RaylibK* RaylibL* RaylibM*'
+          - chunk: N-R
+            pattern: 'RaylibN* RaylibO* RaylibP* RaylibQ* RaylibR*'
+          - chunk: S
+            pattern: 'RaylibS*'
+          - chunk: T-Z
+            pattern: 'RaylibT* RaylibU* RaylibV* RaylibW* RaylibX* RaylibY* RaylibZ*'
 
     steps:
       - uses: actions/checkout@v4
