@@ -25,6 +25,8 @@ priv struct Game {
   gap_size : Float
   pipe_speed : Float
   pipe_spacing : Float
+  mut score : Int
+  mut game_over : Bool
 }
 
 ///|
@@ -40,17 +42,11 @@ fn Bird::update(
   radius : Float,
   sh : Float,
   dt : Float,
-) -> Unit {
+) -> Bool {
   self.velocity += gravity * dt
   self.y += self.velocity * dt
-  if self.y < radius {
-    self.y = radius
-    self.velocity = 0.0
-  }
-  if self.y > sh - radius {
-    self.y = sh - radius
-    self.velocity = 0.0
-  }
+  // Hit ceiling or floor?
+  self.y < radius || self.y > sh - radius
 }
 
 ///|
@@ -86,6 +82,21 @@ fn Pipe::reset(self : Pipe, x : Float, game : Game) -> Unit {
 }
 
 ///|
+fn Pipe::collides_with(
+  self : Pipe,
+  bird_x : Float,
+  bird_y : Float,
+  bird_radius : Float,
+  pipe_width : Float,
+  gap_size : Float,
+) -> Bool {
+  bird_x + bird_radius > self.x &&
+  bird_x - bird_radius < self.x + pipe_width &&
+  (bird_y - bird_radius < self.gap_y - gap_size / 2.0 ||
+  bird_y + bird_radius > self.gap_y + gap_size / 2.0)
+}
+
+///|
 fn random_gap_y(game : Game) -> Float {
   Float::from_int(
     @raylib.get_random_value(
@@ -98,6 +109,8 @@ fn random_gap_y(game : Game) -> Float {
 ///|
 fn reset(game : Game) -> Unit {
   game.bird.reset(game.sh)
+  game.score = 0
+  game.game_over = false
   for i in 0..<game.pipes.length() {
     game.pipes[i].reset(game.sw + Float::from_int(i) * game.pipe_spacing, game)
   }
@@ -105,12 +118,23 @@ fn reset(game : Game) -> Unit {
 
 ///|
 fn update(game : Game, dt : Float) -> Unit {
+  if game.game_over {
+    if @raylib.is_gesture_detected(@raylib.GestureTap) {
+      reset(game)
+    }
+    return
+  }
+
   if @raylib.is_gesture_detected(@raylib.GestureTap) {
     game.bird.velocity = game.jump_force
   }
-  game.bird.update(game.gravity, game.bird_radius, game.sh, dt)
 
-  // Move pipes left; recycle off-screen pipes to the right
+  // Bird physics; boundary hit = game over
+  if game.bird.update(game.gravity, game.bird_radius, game.sh, dt) {
+    game.game_over = true
+  }
+
+  // Move pipes, check collision and scoring
   for pipe in game.pipes {
     pipe.x -= game.pipe_speed * dt
     if pipe.x < -game.pipe_width {
@@ -119,7 +143,39 @@ fn update(game : Game, dt : Float) -> Unit {
         game,
       )
     }
+
+    if pipe.collides_with(
+      game.bird_x,
+      game.bird.y,
+      game.bird_radius,
+      game.pipe_width,
+      game.gap_size,
+    ) {
+      game.game_over = true
+    }
+
+    // Score when bird passes a pipe
+    if not(pipe.scored) && pipe.x + game.pipe_width < game.bird_x {
+      game.score += 1
+      pipe.scored = true
+    }
   }
+}
+
+///|
+fn draw_centered_text(
+  text : String,
+  y : Int,
+  size : Int,
+  color : @raylib.Color,
+) -> Unit {
+  @raylib.draw_text(
+    text,
+    (@raylib.get_screen_width() - @raylib.measure_text(text, size)) / 2,
+    y,
+    size,
+    color,
+  )
 }
 
 ///|
@@ -130,6 +186,27 @@ fn draw(game : Game) -> Unit {
     pipe.draw(game.pipe_width, game.gap_size)
   }
   game.bird.draw(game.bird_x, game.bird_radius)
+  draw_centered_text(
+    "\{game.score}",
+    (game.sh * 0.05).to_int(),
+    (game.sh / 10.0).to_int(),
+    @raylib.white,
+  )
+  if game.game_over {
+    let over_size = (game.sh / 12.0).to_int()
+    draw_centered_text(
+      "GAME OVER",
+      (@raylib.get_screen_height() - over_size) / 2,
+      over_size,
+      @raylib.red,
+    )
+    draw_centered_text(
+      "Tap to restart",
+      @raylib.get_screen_height() / 2 + over_size / 2 + 10,
+      (game.sh / 25.0).to_int(),
+      @raylib.gray,
+    )
+  }
   @raylib.end_drawing()
 }
 
@@ -157,6 +234,8 @@ fn main {
     pipes: Array::makei(pipe_count, fn(_) {
       { x: 0.0, gap_y: 0.0, scored: false }
     }),
+    score: 0,
+    game_over: false,
   }
   reset(game)
 
