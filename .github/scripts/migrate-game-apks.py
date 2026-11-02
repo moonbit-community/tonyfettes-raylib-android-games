@@ -23,7 +23,8 @@ def api(endpoint, paginate=False):
     return json.loads(subprocess.check_output(command + [endpoint], text=True))
 
 
-release = api(f"repos/{REPO}/releases/tags/{TAG}")
+release = api(f"repos/{REPO}/releases/431194886")
+assert release["tag_name"] == TAG
 assert release["draft"], "Migration only writes to the prepared draft release"
 assert not release["immutable"]
 endpoint = f"repos/{REPO}/releases/{release['id']}/assets?per_page=100"
