@@ -17,7 +17,11 @@ on:
 
 concurrency:
   group: build-and-deploy
-  cancel-in-progress: true
+  # Do not interrupt an in-flight Release asset replacement.
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   # ── Job 1: Build all games in parallel chunks ──────────────────────────────
@@ -120,14 +124,18 @@ jobs:
           retention-days: 3
           if-no-files-found: ignore
 
-  # ── Job 2: Upload APKs to S3 + regenerate GitHub Pages ────────────────────
+  # ── Job 2: Publish Release APKs + regenerate GitHub Pages ─────────────────
   deploy:
     name: Deploy
     needs: build
-    if: always()
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: android-games
 
     steps:
       - uses: actions/checkout@v4
@@ -141,33 +149,10 @@ jobs:
           path: /tmp/apks
           merge-multiple: true
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-
-      - name: Upload APKs to S3
+      - name: Upload APKs to GitHub Releases
         env:
-          S3_BUCKET: moonbit-raylib-android-games
-          AWS_REGION: us-west-2
-        run: |
-          shopt -s nullglob
-          apks=(/tmp/apks/*.apk)
-          if (( ${#apks[@]} == 0 )); then
-            echo "No APKs to upload, skipping."
-            exit 0
-          fi
-          for apk in "${apks[@]}"; do
-            name=$(basename "$apk")
-            echo "Uploading $name ..."
-            aws s3 cp "$apk" "s3://${S3_BUCKET}/${name}" \
-              --region "${AWS_REGION}" \
-              --content-type "application/vnd.android.package-archive" \
-              --no-progress
-          done
-          echo "Uploaded ${#apks[@]} APKs."
+          APK_DIR: /tmp/apks
+        run: bash scripts/upload_apks.sh
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -176,13 +161,11 @@ jobs:
 
       - name: Generate site
         env:
-          S3_BUCKET: moonbit-raylib-android-games
-          AWS_REGION: us-west-2
           OUTPUT_DIR: docs
         run: python3 scripts/generate_site.py
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
