@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
-"""generate_site.py — Generate docs/index.html from APK objects in S3.
+"""generate_site.py — Generate docs/index.html from GitHub Release APK assets.
 
 Usage:
     python3 scripts/generate_site.py
 
 Environment:
-    S3_BUCKET   — source bucket  (default: moonbit-raylib-android-games)
-    AWS_REGION  — AWS region     (default: us-west-2)
-    OUTPUT_DIR  — output dir     (default: docs/)
+    GH_REPO      — owner/repository (default: GITHUB_REPOSITORY or this repository)
+    RELEASE_TAG  — release tag      (default: android-games)
+    GH_TOKEN     — GitHub token     (or authenticate with gh auth login)
+    OUTPUT_DIR   — output dir       (default: docs/)
 """
 
 import os
 import re
 import json
 import subprocess
+from html import escape
+from urllib.parse import quote
 
-S3_BUCKET  = os.environ.get("S3_BUCKET",  "moonbit-raylib-android-games")
-AWS_REGION = os.environ.get("AWS_REGION", "us-west-2")
+GH_REPO = os.environ.get("GH_REPO", os.environ.get(
+    "GITHUB_REPOSITORY", "moonbit-community/tonyfettes-raylib-android-games"))
+RELEASE_TAG = os.environ.get("RELEASE_TAG", "android-games")
 OUTPUT_DIR = os.environ.get("OUTPUT_DIR", os.path.join(os.path.dirname(__file__), "..", "docs"))
-BASE_URL   = f"https://{S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com"
 
 CLASSIC_NAMES = {
     "RaylibBattleCity", "RaylibMinesweeper", "RaylibContra1987Lite",
@@ -26,24 +29,34 @@ CLASSIC_NAMES = {
     "RaylibJackal1988Lite", "RaylibBomberman1983Lite",
 }
 
-# ── Fetch APK list from S3 ────────────────────────────────────────────────────
+# ── Fetch APK list from GitHub Releases ───────────────────────────────────────
 
 def list_apks():
-    """Return list of (name, size_mb) sorted by name."""
+    """Return (name, size_mb, download_url) for all uploaded game assets."""
     result = subprocess.run(
-        ["aws", "s3api", "list-objects-v2",
-         "--bucket", S3_BUCKET,
-         "--region", AWS_REGION,
-         "--query", "Contents[?ends_with(Key, '.apk')].[Key,Size]",
-         "--output", "json"],
+        ["gh", "api", f"repos/{GH_REPO}/releases/tags/{quote(RELEASE_TAG, safe='')}"],
         capture_output=True, text=True, check=True
     )
-    objects = json.loads(result.stdout) or []
+    release = json.loads(result.stdout)
+    if release["draft"]:
+        raise RuntimeError("Publish the release before generating the public download page.")
+    result = subprocess.run(
+        ["gh", "api", "--paginate", "--slurp",
+         f"repos/{GH_REPO}/releases/{release['id']}/assets?per_page=100"],
+        capture_output=True, text=True, check=True
+    )
+    pages = json.loads(result.stdout)
     entries = []
-    for key, size in objects:
-        name = key.removesuffix(".apk")
-        if name.endswith("2026") or name in CLASSIC_NAMES:
-            entries.append((name, f"{size / 1024 / 1024:.1f}"))
+    for assets in pages:
+        for asset in assets:
+            if asset["state"] != "uploaded" or not asset["name"].endswith(".apk"):
+                continue
+            name = asset["name"].removesuffix(".apk")
+            if name.endswith("2026") or name in CLASSIC_NAMES:
+                entries.append((name, f"{asset['size'] / 1024 / 1024:.1f}",
+                                asset["browser_download_url"]))
+    if not entries:
+        raise RuntimeError("No uploaded game APKs found; refusing to publish an empty page.")
     return sorted(entries)
 
 # ── HTML helpers ──────────────────────────────────────────────────────────────
@@ -52,9 +65,10 @@ def display_name(name):
     n = name.removeprefix("Raylib").removesuffix("2026").removesuffix("Lite")
     return re.sub(r"([A-Z])", r" \1", n).strip()
 
-def card(name, size_mb):
-    url   = f"{BASE_URL}/{name}.apk"
-    dname = display_name(name)
+def card(name, size_mb, url):
+    dname = escape(display_name(name))
+    name = escape(name, quote=True)
+    url = escape(url, quote=True)
     return f"""\
       <div class="card">
         <div class="card-body">
@@ -71,12 +85,12 @@ def card(name, size_mb):
 # ── Build page ────────────────────────────────────────────────────────────────
 
 def build_html(entries):
-    classics = [(n, s) for n, s in entries if n in CLASSIC_NAMES]
-    games    = [(n, s) for n, s in entries if n not in CLASSIC_NAMES]
+    classics = [entry for entry in entries if entry[0] in CLASSIC_NAMES]
+    games    = [entry for entry in entries if entry[0] not in CLASSIC_NAMES]
     total    = len(entries)
 
-    cards_classics = "\n".join(card(n, s) for n, s in classics)
-    cards_games    = "\n".join(card(n, s) for n, s in games)
+    cards_classics = "\n".join(card(*entry) for entry in classics)
+    cards_games    = "\n".join(card(*entry) for entry in games)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -130,7 +144,7 @@ def build_html(entries):
     </div>
 
     <p class="text-center mt-5" style="color:#8b949e;font-size:.8rem">
-      Built from <a href="https://github.com/moonbit-community/tonyfettes-raylib-android-games" style="color:#58a6ff">moonbit-community/tonyfettes-raylib-android-games</a>
+      Built from <a href="https://github.com/{escape(GH_REPO, quote=True)}" style="color:#58a6ff">{escape(GH_REPO)}</a>
     </p>
   </div>
 
@@ -149,7 +163,7 @@ def build_html(entries):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    print(f"Listing APKs from s3://{S3_BUCKET} ({AWS_REGION})...")
+    print(f"Listing APKs from {GH_REPO} release {RELEASE_TAG}...")
     entries = list_apks()
     print(f"Found {len(entries)} APKs.")
 
