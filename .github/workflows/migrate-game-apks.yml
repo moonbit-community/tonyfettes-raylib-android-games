@@ -1,0 +1,32 @@
+name: Migrate selected game APKs
+
+on:
+  push:
+    branches: [chore/migrate-game-apks]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: migrate-game-apks
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Migrate and verify the 159 selected game APKs
+        run: python3 .github/scripts/migrate-game-apks.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: migration-manifest
+          path: migration-manifest.json
+          retention-days: 7
